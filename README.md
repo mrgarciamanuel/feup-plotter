@@ -1,1 +1,1 @@
-# feup-plotter
+# FEUP PLOTTER
