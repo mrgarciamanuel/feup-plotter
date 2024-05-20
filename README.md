@@ -7,7 +7,6 @@
 
 ```bash
 feup_plotter:
-    sdk: flutter
     path: your_path
 ```
 
