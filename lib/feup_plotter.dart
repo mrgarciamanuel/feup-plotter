@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class FeupPlotter extends StatefulWidget {
   var texto;
   FeupPlotter({required this.texto});
+  //this widget must bring all information we need to plot:
+  //the data, the type of plot, the labels, the title, etc.
 
   @override
   State<FeupPlotter> createState() => _FeupPlotterState();
