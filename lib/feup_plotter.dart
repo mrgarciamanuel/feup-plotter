@@ -1,17 +1,37 @@
 library feup_plotter;
 
+//this will be the plot page basically
 import 'package:flutter/material.dart';
 
-/// import 'package:flutter/material.dart';A Calculator.
-///
-/*
-class Calculator {
-  /// import 'package:flutter/material.dart';Returns [value
-  /// ] plus 1.
-  int addOne(int value) => value + 1;
-}*/
+class FeupPlotter extends StatefulWidget {
+  var texto;
+  FeupPlotter({required this.texto});
 
-class CustomButton extends StatelessWidget {
+  @override
+  State<FeupPlotter> createState() => _FeupPlotterState();
+}
+
+@override
+void initState() {
+  initState();
+}
+
+class _FeupPlotterState extends State<FeupPlotter> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plotter page'),
+      ),
+      body: Center(
+        child: Text(widget.texto),
+      ),
+    );
+  }
+}
+
+
+/*class CustomButtom extends StatelessWidget {
   var onPressed;
   final Widget child;
   var style;
@@ -32,4 +52,7 @@ class CustomButton extends StatelessWidget {
       child: child,
     );
   }
-}
+
+  //TODO: implementar a os devidos plots começar com o lineplot
+  //criar o plot page, poderá ser mesmo essa página
+}*/
