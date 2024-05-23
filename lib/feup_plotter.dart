@@ -5,21 +5,20 @@ import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
 import 'package:feup_plotter/views/plots/lineplot.dart';
 import 'package:flutter/material.dart';
-import 'package:feup_plotter/models/data.dart';
 
 class FeupPlotter extends StatefulWidget {
   final List<String> names;
   final List<Color> colors;
   final List<List<int>> result;
   final List<String> labels;
-  final String texto; //to remove later
-  const FeupPlotter(
-      {super.key,
-      required this.names,
-      required this.colors,
-      required this.result,
-      required this.labels,
-      required this.texto});
+
+  const FeupPlotter({
+    super.key,
+    required this.names,
+    required this.colors,
+    required this.result,
+    required this.labels,
+  });
   //this widget must bring all information we need to plot:
   //the data, the type of plot, the labels, the title, etc.
 
@@ -47,13 +46,11 @@ class _FeupPlotterState extends State<FeupPlotter> {
       "area": LinePlot(widget.names, widget.colors, widget.labels,
           returnPossibleValues(widget.result), widget.result),
     };
-    //List<int> yValues = returnPossibleValues(widget.result);
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Plotter page'),
@@ -84,42 +81,41 @@ class _FeupPlotterState extends State<FeupPlotter> {
               ),
               SizedBox(
                 child: CustomPaint(
-                  size: Size(width, height * 0.7),
+                  size: Size(width - 10, width - 10),
                   painter: selectedPlot,
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    children: [
+                      Text(widget.names[0]),
+                      Text("_______________",
+                          style: TextStyle(color: widget.colors[0]))
+                    ],
+                  ),
+                  widget.names.length > 1
+                      ? Column(
+                          children: [
+                            Text(widget.names[1]),
+                            Text(
+                              "_______________",
+                              style: TextStyle(color: widget.colors[1]),
+                            )
+                          ],
+                        )
+                      : const SizedBox(),
+                ],
+              )
             ],
           ),
         ));
   }
 }
-
-
-/*class CustomButtom extends StatelessWidget {
-  var onPressed;
-  final Widget child;
-  var style;
-  const CustomButton(
-      {/*super.key*/ Key key, this.onPressed, this.child, this.style})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(16.0),
-          primary: Colors.white,
-          backgroundColor: Colors.white,
-          elevation: 9.0,
-          textStyle: const TextStyle(fontSize: 20)),
-      child: child,
-    );
-  }
-
-  //TODO: implementar a os devidos plots começar com o lineplot
-  //criar o plot page, poderá ser mesmo essa página
-}*/

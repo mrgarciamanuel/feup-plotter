@@ -1,4 +1,3 @@
-import 'package:feup_plotter/models/data.dart';
 import 'package:flutter/material.dart';
 
 class LinePlot extends CustomPainter {
@@ -8,7 +7,7 @@ class LinePlot extends CustomPainter {
   final List<int> yValues = [];
   List<List<int>> prices = [];
   LinePlot(
-    List<String> selectedCompanies,
+    List<String> names,
     List<Color> colors,
     List<String> labels,
     List<int> yValues,
@@ -116,7 +115,6 @@ class LinePlot extends CustomPainter {
     int valFromYaxys = 30 +
         10 +
         10; //tirar os valores do size já ocupados pelas margens do eixo
-    print(prices);
     int separator = ((size.height - valFromYaxys) / (yValues.length)).ceil();
     int helper = separator;
     double x = startX;
