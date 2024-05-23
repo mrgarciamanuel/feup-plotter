@@ -2,37 +2,31 @@ import 'package:feup_plotter/models/data.dart';
 import 'package:flutter/material.dart';
 
 class LinePlot extends CustomPainter {
-  final List<Data> information = [];
-  LinePlot(List<Data> selectedCompanies) {
-    for (var data in selectedCompanies) {
-      if (data.value == true) {
-        information.add(data);
+  final List<String> names = [];
+  final List<Color> colors = [];
+  final List<String> labels = [];
+  final List<int> yValues = [];
+  List<List<int>> prices = [];
+  LinePlot(
+    List<String> selectedCompanies,
+    List<Color> colors,
+    List<String> labels,
+    List<int> yValues,
+    List<List<int>> prices,
+  ) {
+    /*for (var company in selectedCompanies) {
+      if (company.value == true) {
+        companies.add(company);
       }
-    }
-    //companies.addAll(selectedCompanies);
+    }*/
+    this.names.addAll(names);
+    this.colors.addAll(colors);
+    this.labels.addAll(labels);
+    this.yValues.addAll(yValues);
+    this.prices = prices;
   }
-  //número de elementos que vão ser desenhados, de momento são 7 dias, mas posteriormente terá que ser dinâmico
-  int nElements = 7;
   List<List<Offset>> xPoints = [];
   List<List<Offset>> yPoints = [];
-  //have to receive this from the source
-  List<String> labels = [
-    '01/05',
-    '02/05',
-    '03/05',
-    '04/05',
-    '05/05',
-    '06/05',
-    '07/05'
-  ];
-  //valores disponíveis em y que uma empresa pode ter
-  List<int> yValues = [1, 2, 3, 4, 5, 6, 7];
-
-  //valores que a empresa tem em cada dia: have to receive this from the source
-  List<List<int>> prices = [
-    [4, 1, 3, 1, 7, 6, 1],
-    [7, 3, 2, 3, 6, 2, 4]
-  ];
 
   getCustomPaint(Color color, double strokeWidth, PaintingStyle style) {
     final customPaint = Paint()
@@ -102,12 +96,16 @@ class LinePlot extends CustomPainter {
     double separator = 45;
     double x = startX;
 
-    for (int i = 0; i < nElements; i++) {
+    for (int i = 0; i < yValues.length; i++) {
       final p1 = Offset(x + separator, size.height - 25);
       final p2 = Offset(x + separator, size.height - 35);
       final p3 = Offset(x + separator, size.height - 30);
-      canvas.drawLine(
-          p1, p2, getCustomPaint(Colors.black, 1, PaintingStyle.stroke));
+
+      if (i < labels.length) {
+        canvas.drawLine(
+            p1, p2, getCustomPaint(Colors.black, 1, PaintingStyle.stroke));
+      }
+
       xPoints.add([p1, p2, p3]);
       separator += 45;
     }
@@ -115,17 +113,22 @@ class LinePlot extends CustomPainter {
 
   ///desenha marcadores no eixo Y
   void drawYMarkers(Canvas canvas, Size size, double startX) {
-    double separator = 45;
+    int valFromYaxys = 30 +
+        10 +
+        10; //tirar os valores do size já ocupados pelas margens do eixo
+    int separator = ((size.height - valFromYaxys) / (yValues.length)).ceil();
+    int helper = separator;
     double x = startX;
-    double y = size.height - 20;
-    for (int i = 0; i < nElements; i++) {
-      final p1 = Offset(x + 5, y - separator);
-      final p2 = Offset(x + size.width - 30, y - separator);
+    double y = size.height - helper;
+    for (int i = 0; i < yValues.length; i++) {
+      final p1 = Offset(x, y - separator); //ponto de partida da linha
+      final p2 =
+          Offset(x + size.width - 30, y - separator); //ponto final da linha
       final p3 = Offset(x + 10, y - separator);
       canvas.drawLine(
           p1, p2, getCustomPaint(Colors.grey, 1, PaintingStyle.stroke));
       yPoints.add([p1, p2, p3]);
-      separator += 45;
+      separator += helper;
     }
   }
 
@@ -140,10 +143,9 @@ class LinePlot extends CustomPainter {
     //Map<int, Color> colors = {0: Colors.black, 1: Colors.red};
     Offset initialPoint = const Offset(0, 0);
     Offset endPoint = const Offset(0, 0);
-
-    for (int j = 0; j < information.length; j++) {
+    for (int j = 0; j < names.length; j++) {
       int cont = 0;
-      for (int i = (nElements - 1); i >= 0; i--) {
+      for (int i = (prices[j].length - 1); i >= 0; i--) {
         //posição do valor no eixo y
         var value = prices[j][i];
         var pos = yValues.indexOf(value);
@@ -165,7 +167,7 @@ class LinePlot extends CustomPainter {
           endPoint = Offset(xPoints[i][2].dx, yPoints[pos][2].dy);
         }
         final paint = Paint()
-          ..color = information[j].color
+          ..color = colors[j]
           ..strokeWidth = 3
           ..style = PaintingStyle.fill;
 
@@ -174,16 +176,13 @@ class LinePlot extends CustomPainter {
 
         //desenho da primeira linha, começar do zero
         if (i == 0) {
-          drawLineLink(
-              canvas,
-              Offset(30, size.height - 30),
-              Offset(xPoints[i][2].dx, yPoints[pos][2].dy),
-              information[j].color);
-        } else if (i == (nElements - 1)) {
-          drawLineLink(canvas, initialPoint, endPoint, information[j].color);
+          drawLineLink(canvas, Offset(30, size.height - 30),
+              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), colors[j]);
+        } else if (i == (yValues.length - 1)) {
+          drawLineLink(canvas, initialPoint, endPoint, colors[j]);
         } else {
           //desenho da penúltima linha até a segunda
-          drawLineLink(canvas, initialPoint, endPoint, information[j].color);
+          drawLineLink(canvas, initialPoint, endPoint, colors[j]);
           initialPoint = endPoint;
         }
         cont++;
@@ -250,11 +249,15 @@ class LinePlot extends CustomPainter {
 
     drawXMarkers(canvas, size, startXaxiX.toDouble());
     drawYMarkers(canvas, size, startXaxiY.toDouble());
-
+    //aqui escrevo os textos no eixo y
     for (int i = 0; i < xPoints.length; i++) {
       setText(yValues[i].toString(), canvas, size, yPoints[i][0], "y");
+    }
+    //aqui escrevo os labels no eixo x
+    for (int i = 0; i < labels.length; i++) {
       setText(labels[i], canvas, size, xPoints[i][0], "x");
     }
+
     drawPoint(canvas, size, prices, xPoints, yPoints, yValues);
     drawInitailPoint(canvas, size);
   }
