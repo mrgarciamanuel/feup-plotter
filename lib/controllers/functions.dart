@@ -38,7 +38,7 @@ showSnackBar(BuildContext context, String message, int error) {
   );
 }
 
-returnPossibleValues(List<List<int>> values){
+returnPossibleValues(List<List<int>> values) {
   List<int> valores = [];
   for (int i = 0; i < values.length; i++) {
     for (int j = 0; j < values[i].length; j++) {
@@ -49,26 +49,4 @@ returnPossibleValues(List<List<int>> values){
   }
   valores.sort();
   return valores;
-
 }
-
-/*
-generateGraph(BuildContext context, List<Company> companies) {
-  List<Company> data = [];
-  for (var company in companies) {
-    if (company.value == true) {
-      data.add(company);
-    }
-  }
-
-  if (data.isNotEmpty) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => PlotPage(
-                  companies: data,
-                )));
-  } else {
-    showSnackBar(context, "Need to select at least one company", 1);
-  }
-}*/
