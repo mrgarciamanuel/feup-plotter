@@ -20,8 +20,11 @@ flutter pub add feup_plotter
 
 
 
-2. After that you can use elements everywhere importing in the file:
+3. After that you can use elements everywhere importing in the file:
 ```bash
     import 'package:feup_plotter/feup_plotter.dart'
 ```
+
+![Captura de ecrã 2024-05-23, às 21 56 31](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/41fd524a-f244-4f8d-b3b8-b8cb63633404)
+
 
