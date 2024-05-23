@@ -2,10 +2,14 @@ library feup_plotter;
 
 //this will be the plot page basically
 import 'package:flutter/material.dart';
+import 'package:feup_plotter/models/data.dart';
 
 class FeupPlotter extends StatefulWidget {
-  var texto;
-  FeupPlotter({required this.texto});
+  final List<Data> data;
+  final List<List<int>> result;
+  final List<String> labels;
+  final String texto;//to remove later
+  const FeupPlotter({super.key, required this.data, required this.result,required this.labels,  required this.texto});
   //this widget must bring all information we need to plot:
   //the data, the type of plot, the labels, the title, etc.
 
