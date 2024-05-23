@@ -2,7 +2,7 @@
 ## Getting Started
 
 
-1. Adding local dependece to your projec
+1. Adding locally to your project
 - Download repo
 - open pubspec.yaml file and add in dependencies settion:
 
@@ -22,6 +22,6 @@ flutter pub add feup_plotter
 
 2. After that you can use elements everywhere importing in the file:
 ```bash
-    import 'package:feup_plotter/feup_plotter.dart';
+    import 'package:feup_plotter/feup_plotter.dart'
 ```
 
