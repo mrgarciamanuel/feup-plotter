@@ -116,6 +116,7 @@ class LinePlot extends CustomPainter {
     int valFromYaxys = 30 +
         10 +
         10; //tirar os valores do size já ocupados pelas margens do eixo
+    print(prices);
     int separator = ((size.height - valFromYaxys) / (yValues.length)).ceil();
     int helper = separator;
     double x = startX;

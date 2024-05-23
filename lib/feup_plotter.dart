@@ -38,10 +38,15 @@ class _FeupPlotterState extends State<FeupPlotter> {
   @override
   void initState() {
     super.initState();
-    /*plots = {
-      "line" : LinePlot(),
-      "area": LinePlot();
-    } */
+    selectedPlot = LinePlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result);
+
+    plots = {
+      "line": LinePlot(widget.names, widget.colors, widget.labels,
+          returnPossibleValues(widget.result), widget.result),
+      "area": LinePlot(widget.names, widget.colors, widget.labels,
+          returnPossibleValues(widget.result), widget.result),
+    };
     //List<int> yValues = returnPossibleValues(widget.result);
   }
 
@@ -73,7 +78,19 @@ class _FeupPlotterState extends State<FeupPlotter> {
                     value: defaultDropdownvalue,
                   )
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              SizedBox(
+                child: CustomPaint(
+                  size: Size(width, height * 0.7),
+                  painter: selectedPlot,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ));
