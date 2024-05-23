@@ -8,11 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:feup_plotter/models/data.dart';
 
 class FeupPlotter extends StatefulWidget {
-  final List<Data> data;
+  final List<String> names;
+  final List<Color> colors;
   final List<List<int>> result;
   final List<String> labels;
-  final String texto;//to remove later
-  const FeupPlotter({super.key, required this.data, required this.result,required this.labels,  required this.texto});
+  final String texto; //to remove later
+  const FeupPlotter(
+      {super.key,
+      required this.names,
+      required this.colors,
+      required this.result,
+      required this.labels,
+      required this.texto});
   //this widget must bring all information we need to plot:
   //the data, the type of plot, the labels, the title, etc.
 
@@ -20,10 +27,7 @@ class FeupPlotter extends StatefulWidget {
   State<FeupPlotter> createState() => _FeupPlotterState(values: result);
 }
 
-
-
-
-class _FeupPlotterState extends State<FeupPlotter> { 
+class _FeupPlotterState extends State<FeupPlotter> {
   List<List<int>> values;
   String defaultDropdownvalue = "line";
   CustomPainter? selectedPlot;
@@ -32,13 +36,13 @@ class _FeupPlotterState extends State<FeupPlotter> {
   _FeupPlotterState({required this.values});
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     /*plots = {
       "line" : LinePlot(),
       "area": LinePlot();
     } */
-      //List<int> yValues = returnPossibleValues(widget.result);
+    //List<int> yValues = returnPossibleValues(widget.result);
   }
 
   @override
@@ -46,26 +50,33 @@ class _FeupPlotterState extends State<FeupPlotter> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Plotter page'),
-      ),
-      body: SizedBox(child: Column(children: <Widget>[
-        const SizedBox(
-          height: 5,
-        ), 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButton(items: charts, onChanged: (String? value){
-              setState(() {
-                defaultDropdownvalue = value!;
-                selectedPlot = plots[value];
-              });
-            }, value: defaultDropdownvalue,)
-          ],
-        )
-      ],),)
-    );
+        appBar: AppBar(
+          title: const Text('Plotter page'),
+        ),
+        body: SizedBox(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DropdownButton(
+                    items: charts,
+                    onChanged: (String? value) {
+                      setState(() {
+                        defaultDropdownvalue = value!;
+                        selectedPlot = plots[value];
+                      });
+                    },
+                    value: defaultDropdownvalue,
+                  )
+                ],
+              )
+            ],
+          ),
+        ));
   }
 }
 
