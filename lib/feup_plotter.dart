@@ -1,7 +1,9 @@
 library feup_plotter;
 
 //this will be the plot page basically
+import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
+import 'package:feup_plotter/views/plots/lineplot.dart';
 import 'package:flutter/material.dart';
 import 'package:feup_plotter/models/data.dart';
 
@@ -18,11 +20,8 @@ class FeupPlotter extends StatefulWidget {
   State<FeupPlotter> createState() => _FeupPlotterState(values: result);
 }
 
-@override
-void initState() {
-  initState();
-  //List<int> yValues = returnPossibleValues(widget.result);
-}
+
+
 
 class _FeupPlotterState extends State<FeupPlotter> { 
   List<List<int>> values;
@@ -33,14 +32,39 @@ class _FeupPlotterState extends State<FeupPlotter> {
   _FeupPlotterState({required this.values});
 
   @override
+  void initState(){
+    super.initState();
+    /*plots = {
+      "line" : LinePlot(),
+      "area": LinePlot();
+    } */
+      //List<int> yValues = returnPossibleValues(widget.result);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Plotter page'),
       ),
-      body: Center(
-        child: Text(widget.texto),
-      ),
+      body: SizedBox(child: Column(children: <Widget>[
+        const SizedBox(
+          height: 5,
+        ), 
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DropdownButton(items: charts, onChanged: (String? value){
+              setState(() {
+                defaultDropdownvalue = value!;
+                selectedPlot = plots[value];
+              });
+            }, value: defaultDropdownvalue,)
+          ],
+        )
+      ],),)
     );
   }
 }
