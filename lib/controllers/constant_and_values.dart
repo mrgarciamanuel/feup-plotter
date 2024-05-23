@@ -9,4 +9,8 @@ var charts = [
     value: "area",
     child: Text("Area Graph"),
   ),
+  const DropdownMenuItem(
+    value: "bar",
+    child: Text("Bar Graph"),
+  ),
 ];
