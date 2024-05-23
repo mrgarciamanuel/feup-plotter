@@ -5,24 +5,19 @@ class LinePlot extends CustomPainter {
   final List<Color> colors = [];
   final List<String> labels = [];
   final List<int> yValues = [];
-  List<List<int>> prices = [];
+  List<List<int>> values = [];
   LinePlot(
     List<String> names,
     List<Color> colors,
     List<String> labels,
     List<int> yValues,
-    List<List<int>> prices,
+    List<List<int>> values,
   ) {
-    /*for (var company in selectedCompanies) {
-      if (company.value == true) {
-        companies.add(company);
-      }
-    }*/
     this.names.addAll(names);
     this.colors.addAll(colors);
     this.labels.addAll(labels);
     this.yValues.addAll(yValues);
-    this.prices = prices;
+    this.values = values;
   }
   List<List<Offset>> xPoints = [];
   List<List<Offset>> yPoints = [];
@@ -144,14 +139,14 @@ class LinePlot extends CustomPainter {
     Offset endPoint = const Offset(0, 0);
     for (int j = 0; j < names.length; j++) {
       int cont = 0;
-      for (int i = (prices[j].length - 1); i >= 0; i--) {
+      for (int i = (values[j].length - 1); i >= 0; i--) {
         //posição do valor no eixo y
-        var value = prices[j][i];
+        var value = values[j][i];
         var pos = yValues.indexOf(value);
 
         //como estamos a desenhar de trás para frente, precisamos pegar o próximo valor que será tratado como o ponto inicial do próximo desenho
         if (i >= 1) {
-          var nextValue = prices[j][i - 1];
+          var nextValue = values[j][i - 1];
           var nextLabel = labels[i - 1];
           var nextPosY = yValues.indexOf(nextValue);
           var nextPosX = labels.indexOf(nextLabel);
@@ -257,7 +252,7 @@ class LinePlot extends CustomPainter {
       setText(labels[i], canvas, size, xPoints[i][0], "x");
     }
 
-    drawPoint(canvas, size, prices, xPoints, yPoints, yValues);
+    drawPoint(canvas, size, values, xPoints, yPoints, yValues);
     drawInitailPoint(canvas, size);
   }
 
