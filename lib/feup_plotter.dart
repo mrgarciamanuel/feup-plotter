@@ -23,6 +23,9 @@ void initState() {
 }
 
 class _FeupPlotterState extends State<FeupPlotter> {
+  String defaultDropdownvalue = "line";
+  CustomPainter? selectedPlot;
+  Map<String, CustomPainter> plots = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
