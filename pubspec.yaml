@@ -1,8 +1,6 @@
 name: feup_plotter
 description: A new Flutter package project.
 version: 0.0.1
-authors:
-  - Garcia Manuel
 homepage: https://github.com/mrgarciamanuel/feup-plotter
 
 environment:
