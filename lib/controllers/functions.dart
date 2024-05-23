@@ -38,6 +38,20 @@ showSnackBar(BuildContext context, String message, int error) {
   );
 }
 
+returnPossibleValues(List<List<int>> values){
+  List<int> valores = [];
+  for (int i = 0; i < values.length; i++) {
+    for (int j = 0; j < values[i].length; j++) {
+      if (!valores.contains(values[i][j])) {
+        valores.add(values[i][j]);
+      }
+    }
+  }
+  valores.sort();
+  return valores;
+
+}
+
 /*
 generateGraph(BuildContext context, List<Company> companies) {
   List<Company> data = [];

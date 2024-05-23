@@ -1,6 +1,7 @@
 library feup_plotter;
 
 //this will be the plot page basically
+import 'package:feup_plotter/controllers/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:feup_plotter/models/data.dart';
 
@@ -14,18 +15,23 @@ class FeupPlotter extends StatefulWidget {
   //the data, the type of plot, the labels, the title, etc.
 
   @override
-  State<FeupPlotter> createState() => _FeupPlotterState();
+  State<FeupPlotter> createState() => _FeupPlotterState(values: result);
 }
 
 @override
 void initState() {
   initState();
+  //List<int> yValues = returnPossibleValues(widget.result);
 }
 
-class _FeupPlotterState extends State<FeupPlotter> {
+class _FeupPlotterState extends State<FeupPlotter> { 
+  List<List<int>> values;
   String defaultDropdownvalue = "line";
   CustomPainter? selectedPlot;
   Map<String, CustomPainter> plots = {};
+
+  _FeupPlotterState({required this.values});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
