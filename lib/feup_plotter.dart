@@ -4,6 +4,7 @@ library feup_plotter;
 import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
 import 'package:feup_plotter/views/plots/lineplot.dart';
+import 'package:feup_plotter/views/plots/barplot.dart';
 import 'package:flutter/material.dart';
 
 class FeupPlotter extends StatefulWidget {
@@ -44,6 +45,8 @@ class _FeupPlotterState extends State<FeupPlotter> {
       "line": LinePlot(widget.names, widget.colors, widget.labels,
           returnPossibleValues(widget.result), widget.result),
       "area": LinePlot(widget.names, widget.colors, widget.labels,
+          returnPossibleValues(widget.result), widget.result),
+      "bar": BarPlot(widget.names, widget.colors, widget.labels,
           returnPossibleValues(widget.result), widget.result),
     };
   }

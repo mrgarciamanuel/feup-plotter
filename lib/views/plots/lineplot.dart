@@ -6,6 +6,7 @@ class LinePlot extends CustomPainter {
   final List<String> labels = [];
   final List<int> yValues = [];
   List<List<int>> values = [];
+
   LinePlot(
     List<String> names,
     List<Color> colors,
