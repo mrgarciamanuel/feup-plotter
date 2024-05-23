@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_stock_analsys/models/company.dart';
 
 class BarPlot extends CustomPainter {
   final List<String> names = [];
@@ -81,7 +80,7 @@ class BarPlot extends CustomPainter {
     double separator = 45;
     double x = startX;
 
-    for (int i = 0; i < nElements; i++) {
+    for (int i = 0; i < yValues.length; i++) {
       final p1 = Offset(x + separator, size.height - 25);
       final p2 = Offset(x + separator, size.height - 35);
       final p3 = Offset(x + separator, size.height - 30);
@@ -96,7 +95,7 @@ class BarPlot extends CustomPainter {
     double separator = 45;
     double x = startX;
     double y = size.height - 20;
-    for (int i = 0; i < nElements; i++) {
+    for (int i = 0; i < yValues.length; i++) {
       final p1 = Offset(x + 5, y - separator);
       final p2 = Offset(x + size.width - 30, y - separator);
       final p3 = Offset(x + 10, y - separator);
@@ -116,8 +115,8 @@ class BarPlot extends CustomPainter {
       List<int> yValues) {
     double barWidth = 20;
     for (int j = 0; j < names.length; j++) {
-      for (int i = 0; i < nElements; i++) {
-        var value = prices[j][i];
+      for (int i = 0; i < yValues.length; i++) {
+        var value = values[j][i];
         var pos = yValues.indexOf(value);
         final paint = Paint()
           ..color = colors[j].withOpacity(0.4)
@@ -183,7 +182,7 @@ class BarPlot extends CustomPainter {
       setText(yValues[i].toString(), canvas, size, yPoints[i][0], "y");
       setText(labels[i], canvas, size, xPoints[i][0], "x");
     }
-    drawBars(canvas, size, prices, xPoints, yPoints, yValues);
+    drawBars(canvas, size, values, xPoints, yPoints, yValues);
     drawInitailPoint(canvas, size);
   }
 
