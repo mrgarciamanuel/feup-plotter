@@ -21,6 +21,9 @@ class BarPlot extends CustomPainter {
     this.values = values;
   }
 
+  List<List<Offset>> xPoints = [];
+  List<List<Offset>> yPoints = [];
+
   getCustomPaint(Color color, double strokeWidth, PaintingStyle style) {
     final customPaint = Paint()
       ..color = color
@@ -45,9 +48,6 @@ class BarPlot extends CustomPainter {
     canvas.drawLine(p1, p2, paint);
     return [x1.toInt() - 10, x2.toInt() - 10];
   }
-
-  List<List<Offset>> xPoints = [];
-  List<List<Offset>> yPoints = [];
 
   List<int> drawXAxis(Canvas canvas, Size size) {
     const double x1 = 10;
@@ -75,6 +75,7 @@ class BarPlot extends CustomPainter {
   }
 
   void drawXMarkers(Canvas canvas, Size size, double startX) {
+    print(values);
     yPoints = [];
     xPoints = [];
     double separator = 45;
@@ -92,17 +93,22 @@ class BarPlot extends CustomPainter {
   }
 
   void drawYMarkers(Canvas canvas, Size size, double startX) {
-    double separator = 45;
+    int valFromYaxys = 30 +
+        10 +
+        10; //tirar os valores do size já ocupados pelas margens do eixo
+    int separator = ((size.height - valFromYaxys) / (yValues.length)).ceil();
+    int helper = separator;
     double x = startX;
-    double y = size.height - 20;
+    double y = size.height - helper;
     for (int i = 0; i < yValues.length; i++) {
-      final p1 = Offset(x + 5, y - separator);
-      final p2 = Offset(x + size.width - 30, y - separator);
+      final p1 = Offset(x, y - separator); //ponto de partida da linha
+      final p2 =
+          Offset(x + size.width - 30, y - separator); //ponto final da linha
       final p3 = Offset(x + 10, y - separator);
       canvas.drawLine(
           p1, p2, getCustomPaint(Colors.grey, 1, PaintingStyle.stroke));
       yPoints.add([p1, p2, p3]);
-      separator += 45;
+      separator += helper;
     }
   }
 
@@ -115,7 +121,7 @@ class BarPlot extends CustomPainter {
       List<int> yValues) {
     double barWidth = 20;
     for (int j = 0; j < names.length; j++) {
-      for (int i = 0; i < yValues.length; i++) {
+      for (int i = 0; i < values[j].length; i++) {
         var value = values[j][i];
         var pos = yValues.indexOf(value);
         final paint = Paint()
@@ -178,10 +184,15 @@ class BarPlot extends CustomPainter {
     drawXMarkers(canvas, size, startXaxiX.toDouble());
     drawYMarkers(canvas, size, startXaxiY.toDouble());
 
+    //aqui escrevo os textos no eixo y
     for (int i = 0; i < xPoints.length; i++) {
       setText(yValues[i].toString(), canvas, size, yPoints[i][0], "y");
+    }
+    //aqui escrevo os labels no eixo x
+    for (int i = 0; i < labels.length; i++) {
       setText(labels[i], canvas, size, xPoints[i][0], "x");
     }
+
     drawBars(canvas, size, values, xPoints, yPoints, yValues);
     drawInitailPoint(canvas, size);
   }
