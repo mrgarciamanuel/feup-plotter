@@ -21,7 +21,6 @@ class AreaPlot extends CustomPainter {
     this.values = values;
   }
 
-  int nElements = 7;
   List<List<Offset>> xPoints = [];
   List<List<Offset>> yPoints = [];
 
@@ -81,29 +80,37 @@ class AreaPlot extends CustomPainter {
     double separator = 45;
     double x = startX;
 
-    for (int i = 0; i < nElements; i++) {
+    for (int i = 0; i < yValues.length; i++) {
       final p1 = Offset(x + separator, size.height - 25);
       final p2 = Offset(x + separator, size.height - 35);
       final p3 = Offset(x + separator, size.height - 30);
-      canvas.drawLine(
-          p1, p2, getCustomPaint(Colors.black, 1, PaintingStyle.stroke));
+
+      if (i < labels.length) {
+        canvas.drawLine(
+            p1, p2, getCustomPaint(Colors.black, 1, PaintingStyle.stroke));
+      }
       xPoints.add([p1, p2, p3]);
       separator += 45;
     }
   }
 
   void drawYMarkers(Canvas canvas, Size size, double startX) {
-    double separator = 45;
+    int valFromYaxys = 30 +
+        10 +
+        10; //tirar os valores do size já ocupados pelas margens do eixo
+    int separator = ((size.height - valFromYaxys) / (yValues.length)).ceil();
+    int helper = separator;
     double x = startX;
-    double y = size.height - 20;
-    for (int i = 0; i < nElements; i++) {
-      final p1 = Offset(x + 5, y - separator);
-      final p2 = Offset(x + size.width - 30, y - separator);
+    double y = size.height - helper;
+    for (int i = 0; i < yValues.length; i++) {
+      final p1 = Offset(x, y - separator); //ponto de partida da linha
+      final p2 =
+          Offset(x + size.width - 30, y - separator); //ponto final da linha
       final p3 = Offset(x + 10, y - separator);
       canvas.drawLine(
           p1, p2, getCustomPaint(Colors.grey, 1, PaintingStyle.stroke));
       yPoints.add([p1, p2, p3]);
-      separator += 45;
+      separator += helper;
     }
   }
 
@@ -126,7 +133,10 @@ class AreaPlot extends CustomPainter {
         path.lineTo(xPoints[i][2].dx, yPoints[pos][2].dy);
       }
 
-      path.lineTo(xPoints.last[2].dx, size.height - 30);
+      path.lineTo(
+          xPoints[labels.length - 1][2].dx,
+          size.height -
+              30); //o preenchimento final terá o último marker das labels
       path.close();
 
       final paint = Paint()
@@ -180,10 +190,15 @@ class AreaPlot extends CustomPainter {
     drawXMarkers(canvas, size, startXaxiX.toDouble());
     drawYMarkers(canvas, size, startXaxiY.toDouble());
 
+    //aqui escrevo os textos no eixo y
     for (int i = 0; i < xPoints.length; i++) {
       setText(yValues[i].toString(), canvas, size, yPoints[i][0], "y");
+    }
+    //aqui escrevo os labels no eixo x
+    for (int i = 0; i < labels.length; i++) {
       setText(labels[i], canvas, size, xPoints[i][0], "x");
     }
+
     drawArea(canvas, size, values, xPoints, yPoints, yValues);
     drawInitailPoint(canvas, size);
   }
