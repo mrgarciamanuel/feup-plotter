@@ -1,29 +1,29 @@
 # FEUP PLOTTER
 ## Getting Started
 
-
-1. Adding locally to your project
-- Download repo
-- open pubspec.yaml file and add in dependencies settion:
-
-```bash
-feup_plotter:
-    path: your_path
-```
-
-2. Install from pub.deb
+1. Install from pub.deb
 - run the comand 
 
 ```bash
 flutter pub add feup_plotter
 ```
 
-3. After that you can use elements everywhere importing in the file:
+2. After that you can use elements everywhere importing in the file:
 ```bash
     import 'package:feup_plotter/feup_plotter.dart'
 ```
 
-4. At moment three types of chart:
+4. Data preparation
+You can plot information for single element of you can make comparison between two elements.
+- You need four arrays:
+    - names: describe elements
+    - colors: array of Color type - to distinguish elements visually
+    - labels: array string - markers for X axis
+    - result: values that element can have based on label
+
+- Then call our FeupPlotter widget with these parameter to get everything working. 
+
+At moment three types of chart:
    - Line,
    - Bar
    - Area.
