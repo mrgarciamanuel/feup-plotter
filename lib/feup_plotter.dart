@@ -56,70 +56,77 @@ class _FeupPlotterState extends State<FeupPlotter> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Plotter page'),
-        ),
-        body: SizedBox(
-          child: Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DropdownButton(
-                    items: charts,
-                    onChanged: (String? value) {
-                      setState(() {
-                        defaultDropdownvalue = value!;
-                        selectedPlot = plots[value];
-                      });
-                    },
-                    value: defaultDropdownvalue,
+      appBar: AppBar(
+        title: const Text('Plotter page'),
+      ),
+      body: widget.labels.isNotEmpty &&
+              widget.names.isNotEmpty &&
+              widget.colors.isNotEmpty &&
+              widget.result.isNotEmpty
+          ? SizedBox(
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DropdownButton(
+                        items: charts,
+                        onChanged: (String? value) {
+                          setState(() {
+                            defaultDropdownvalue = value!;
+                            selectedPlot = plots[value];
+                          });
+                        },
+                        value: defaultDropdownvalue,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    child: CustomPaint(
+                      size: Size(width - 10, width - 10),
+                      painter: selectedPlot,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          Text(widget.names[0]),
+                          Text("_______________",
+                              style: TextStyle(color: widget.colors[0]))
+                        ],
+                      ),
+                      widget.names.length > 1
+                          ? Column(
+                              children: [
+                                Text(widget.names[1]),
+                                Text(
+                                  "_______________",
+                                  style: TextStyle(color: widget.colors[1]),
+                                )
+                              ],
+                            )
+                          : const SizedBox(),
+                    ],
                   )
                 ],
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                child: CustomPaint(
-                  size: Size(width - 10, width - 10),
-                  painter: selectedPlot,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    children: [
-                      Text(widget.names[0]),
-                      Text("_______________",
-                          style: TextStyle(color: widget.colors[0]))
-                    ],
-                  ),
-                  widget.names.length > 1
-                      ? Column(
-                          children: [
-                            Text(widget.names[1]),
-                            Text(
-                              "_______________",
-                              style: TextStyle(color: widget.colors[1]),
-                            )
-                          ],
-                        )
-                      : const SizedBox(),
-                ],
-              )
-            ],
-          ),
-        ));
+            )
+          : showSomethingWentWrong(
+              width, width, "No data to plot", "Please provide data to plot"),
+    );
   }
 }
