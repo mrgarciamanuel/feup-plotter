@@ -27,4 +27,6 @@ flutter pub add feup_plotter
 
 ![Captura de ecrã 2024-05-23, às 21 56 31](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/41fd524a-f244-4f8d-b3b8-b8cb63633404)
 
+![alt text](<Captura de ecrã 2024-05-24, às 01.27.51.png>)
 
+![alt text](<Captura de ecrã 2024-05-24, às 01.28.48.png>)
