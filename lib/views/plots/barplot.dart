@@ -75,7 +75,6 @@ class BarPlot extends CustomPainter {
   }
 
   void drawXMarkers(Canvas canvas, Size size, double startX) {
-    print(values);
     yPoints = [];
     xPoints = [];
     double separator = 45;
