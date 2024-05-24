@@ -18,12 +18,15 @@ feup_plotter:
 flutter pub add feup_plotter
 ```
 
-
-
 3. After that you can use elements everywhere importing in the file:
 ```bash
     import 'package:feup_plotter/feup_plotter.dart'
 ```
+
+4. At moment three types of chart:
+   - Line,
+   - Bar
+   - Area.
 
 ![Simulator Screenshot - iPhone SE (3rd generation) - 2024-05-24 at 02 16 25](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/74b48518-66e7-4534-8cdd-019f8da4d5ad)
 ![Simulator Screenshot - iPhone SE (3rd generation) - 2024-05-24 at 02 13 54](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/8a0fbe79-0558-4fa5-ae29-8412da3bc2d9)
