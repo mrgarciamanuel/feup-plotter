@@ -28,3 +28,7 @@ migrate_working_dir/
 .dart_tool/
 .packages
 build/
+pubspec.lock
+package_config_subset
+.dart_tool/version
+.dart_tool/package_config.json
