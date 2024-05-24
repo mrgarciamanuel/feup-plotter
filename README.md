@@ -2,10 +2,9 @@
 ## Getting Started
 
 1. Install from pub.deb
-- run the comand 
 
 ```bash
-flutter pub add feup_plotter
+    flutter pub add feup_plotter
 ```
 
 2. After that you can use elements everywhere importing in the file:
@@ -19,14 +18,14 @@ You can plot information for single element of you can make comparison between t
     - names: describe elements
     - colors: array of Color type - to distinguish elements visually
     - labels: array string - markers for X axis
-    - result: values that element can have based on label
+    - result: array with values that an element can have based on labels
 
 - Then call our FeupPlotter widget with these parameter to get everything working. 
 
-At moment three types of chart:
-   - Line,
+At moment we support three types of chart:
+   - Line
    - Bar
-   - Area.
+   - Area
 
 ![Simulator Screenshot - iPhone SE (3rd generation) - 2024-05-24 at 02 16 25](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/74b48518-66e7-4534-8cdd-019f8da4d5ad)
 ![Simulator Screenshot - iPhone SE (3rd generation) - 2024-05-24 at 02 13 54](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/8a0fbe79-0558-4fa5-ae29-8412da3bc2d9)
