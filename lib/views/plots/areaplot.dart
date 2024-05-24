@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:my_stock_analsys/models/company.dart';
 
 class AreaPlot extends CustomPainter {
-  final List<Company> companies;
-  AreaPlot(this.companies);
+  final List<String> names = [];
+  final List<Color> colors = [];
+  final List<String> labels = [];
+  final List<int> yValues = [];
+  List<List<int>> values = [];
+
+  AreaPlot(
+    List<String> names,
+    List<Color> colors,
+    List<String> labels,
+    List<int> yValues,
+    List<List<int>> values,
+  ) {
+    this.names.addAll(names);
+    this.colors.addAll(colors);
+    this.labels.addAll(labels);
+    this.yValues.addAll(yValues);
+    this.values = values;
+  }
 
   int nElements = 7;
   List<List<Offset>> xPoints = [];
   List<List<Offset>> yPoints = [];
-  List<String> labels = [
-    '01/05',
-    '02/05',
-    '03/05',
-    '04/05',
-    '05/05',
-    '06/05',
-    '07/05'
-  ];
-  // Available y values that a company can have
-  List<int> yValues = [1, 2, 3, 4, 5, 6, 7];
-
-  // Company prices over the given days (for demonstration purposes)
-  List<List<int>> prices = [
-    [4, 1, 3, 1, 7, 6, 1],
-    [7, 3, 2, 3, 6, 2, 4]
-  ];
 
   Paint getCustomPaint(Color color, double strokeWidth, PaintingStyle style) {
     final customPaint = Paint()
@@ -117,12 +116,12 @@ class AreaPlot extends CustomPainter {
       List<int> yValues) {
     Path path = Path();
 
-    for (int j = 0; j < prices.length; j++) {
+    for (int j = 0; j < names.length; j++) {
       path.reset();
       path.moveTo(30, size.height - 30);
 
-      for (int i = 0; i < nElements; i++) {
-        var value = prices[j][i];
+      for (int i = 0; i < values[j].length; i++) {
+        var value = values[j][i];
         var pos = yValues.indexOf(value);
         path.lineTo(xPoints[i][2].dx, yPoints[pos][2].dy);
       }
@@ -131,7 +130,7 @@ class AreaPlot extends CustomPainter {
       path.close();
 
       final paint = Paint()
-        ..color = companies[j].color.withOpacity(0.4)
+        ..color = colors[j].withOpacity(0.4)
         ..style = PaintingStyle.fill;
 
       canvas.drawPath(path, paint);
@@ -185,7 +184,7 @@ class AreaPlot extends CustomPainter {
       setText(yValues[i].toString(), canvas, size, yPoints[i][0], "y");
       setText(labels[i], canvas, size, xPoints[i][0], "x");
     }
-    drawArea(canvas, size, prices, xPoints, yPoints, yValues);
+    drawArea(canvas, size, values, xPoints, yPoints, yValues);
     drawInitailPoint(canvas, size);
   }
 
