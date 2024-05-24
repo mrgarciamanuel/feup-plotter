@@ -12,7 +12,7 @@
     import 'package:feup_plotter/feup_plotter.dart'
 ```
 
-4. Data preparation
+3. Data preparation
 You can plot information for single element of you can make comparison between two elements.
 - You need four arrays:
     - names: describe elements
@@ -22,6 +22,7 @@ You can plot information for single element of you can make comparison between t
 
 - Then call our FeupPlotter widget with these parameter to get everything working. 
 
+4 - Charts
 At moment we support three types of chart:
    - Line
    - Bar
