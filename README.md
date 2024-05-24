@@ -22,8 +22,9 @@ You can plot information for single element of you can make comparison between t
 
 - Then call our FeupPlotter widget with these parameter to get everything working. 
 
-4 - Charts
-At moment we support three types of chart:
+ 4 - Charts
+ 
+    At moment we support three types of chart:
    - Line
    - Bar
    - Area
