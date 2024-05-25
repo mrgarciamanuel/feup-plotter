@@ -1,6 +1,6 @@
 name: feup_plotter
-description: Versatile Flutter package to generate different types of chart for your data. Provides the ability to display information in a very cool and reliable way. It is suitable for statistical information,  trending data and so on. Ideal for software developers that use flutter.
-version: 0.0.2
+description: Versatile Flutter package to generate different types of chart for your data. Provides the ability to display information in a very cool and reliable way. It is suitable for statistical information,  trending data and so on. Ideal for software developers that use flutter to develop mobile applications for both android an IOS environments.
+version: 0.0.3
 homepage: https://github.com/mrgarciamanuel/feup-plotter
 
 environment:
