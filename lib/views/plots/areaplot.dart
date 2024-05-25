@@ -77,7 +77,11 @@ class AreaPlot extends CustomPainter {
   void drawXMarkers(Canvas canvas, Size size, double startX) {
     yPoints = [];
     xPoints = [];
-    double separator = 45;
+    int valFromXaxys = 30 +
+        10 +
+        10; //tirar os valores do size já ocupados pelas margens do eixo
+    int separator = ((size.width - valFromXaxys) / (labels.length)).ceil();
+    int helper = separator;
     double x = startX;
 
     for (int i = 0; i < yValues.length; i++) {
@@ -90,7 +94,7 @@ class AreaPlot extends CustomPainter {
             p1, p2, getCustomPaint(Colors.black, 1, PaintingStyle.stroke));
       }
       xPoints.add([p1, p2, p3]);
-      separator += 45;
+      separator += helper;
     }
   }
 
