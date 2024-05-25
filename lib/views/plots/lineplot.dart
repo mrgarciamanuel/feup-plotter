@@ -188,6 +188,8 @@ class LinePlot extends CustomPainter {
             initialPoint = endPoint;
           }
           cont++;
+        } else {
+          break;
         }
       }
     }
