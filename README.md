@@ -21,8 +21,8 @@ You can plot information for single element of you can make comparison between t
     - result: array with values that an element can have based on labels
 - Then call our FeupPlotter widget with these parameter to get everything working.
 
-  4. Find example in file: example/lib/main.dart
-  5. Charts
+4. Find example in file: example/lib/main.dart
+5. Charts
  
     At moment we support three types of chart:
    - Line
