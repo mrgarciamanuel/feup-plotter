@@ -200,7 +200,8 @@ class AreaPlot extends CustomPainter {
     }
     //aqui escrevo os labels no eixo x
     for (int i = 0; i < labels.length; i++) {
-      setText(labels[i], canvas, size, xPoints[i][0], "x");
+      setText(labels[i].length > 5 ? labels[i].substring(0, 4) : labels[i],
+          canvas, size, xPoints[i][0], "x");
     }
 
     drawArea(canvas, size, values, xPoints, yPoints, yValues);
