@@ -173,7 +173,7 @@ class LinePlot extends CustomPainter {
         if (i == 0) {
           drawLineLink(canvas, Offset(30, size.height - 30),
               Offset(xPoints[i][2].dx, yPoints[pos][2].dy), colors[j]);
-        } else if (i == (yValues.length - 1)) {
+        } else if (i == (values[j].length - 1)) {
           drawLineLink(canvas, initialPoint, endPoint, colors[j]);
         } else {
           //desenho da penúltima linha até a segunda
