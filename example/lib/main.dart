@@ -59,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "December"
       ],
       result: result,
+      appBarBgColor: Colors.green,
     );
   }
 }

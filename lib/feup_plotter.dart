@@ -13,6 +13,7 @@ class FeupPlotter extends StatefulWidget {
   final List<Color> colors;
   final List<List<int>> result;
   final List<String> labels;
+  final Color appBarBgColor;
 
   const FeupPlotter({
     super.key,
@@ -20,6 +21,7 @@ class FeupPlotter extends StatefulWidget {
     required this.colors,
     required this.result,
     required this.labels,
+    required this.appBarBgColor,
   });
   //this widget must bring all information we need to plot:
   //the data, the type of plot, the labels, the title, etc.
@@ -58,6 +60,7 @@ class _FeupPlotterState extends State<FeupPlotter> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Plotter page'),
+        backgroundColor: widget.appBarBgColor,
       ),
       body: widget.labels.isNotEmpty &&
               widget.names.isNotEmpty &&
