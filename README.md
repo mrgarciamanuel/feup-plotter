@@ -14,11 +14,13 @@
 
 3. Data preparation
 You can plot information for single element of you can make comparison between two elements.
-- You need four arrays:
+- You need six variables:
     - names: describe elements
     - colors: array of Color type - to distinguish elements visually
     - labels: array string - markers for X axis
     - result: int array with values that an element can have based on labels
+    - appBarBgColor: variable of type Color to define the color of appbar
+    - screenTitle: String variable with title of screen
 - Then call our FeupPlotter widget with these parameter to get everything working.
 
 4. Find example in file: example/lib/main.dart

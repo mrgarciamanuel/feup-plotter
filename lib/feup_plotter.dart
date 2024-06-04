@@ -14,6 +14,7 @@ class FeupPlotter extends StatefulWidget {
   final List<List<int>> result;
   final List<String> labels;
   final Color appBarBgColor;
+  final String screenTitle;
 
   const FeupPlotter({
     super.key,
@@ -22,6 +23,7 @@ class FeupPlotter extends StatefulWidget {
     required this.result,
     required this.labels,
     required this.appBarBgColor,
+    required this.screenTitle,
   });
   //this widget must bring all information we need to plot:
   //the data, the type of plot, the labels, the title, etc.
@@ -59,7 +61,9 @@ class _FeupPlotterState extends State<FeupPlotter> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plotter page'),
+        title: Text(widget.screenTitle.length < 20
+            ? widget.screenTitle
+            : widget.screenTitle.substring(0, 20) + "..."),
         backgroundColor: widget.appBarBgColor,
       ),
       body: widget.labels.isNotEmpty &&

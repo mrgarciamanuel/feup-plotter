@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
       result: result,
       appBarBgColor: Colors.green,
+      screenTitle: "Company's revenue in last seven days",
     );
   }
 }
