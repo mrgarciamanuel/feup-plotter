@@ -61,7 +61,7 @@ class _FeupPlotterState extends State<FeupPlotter> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plotter page'),
+        title: Text(widget.screenTitle),
         backgroundColor: widget.appBarBgColor,
       ),
       body: widget.labels.isNotEmpty &&
