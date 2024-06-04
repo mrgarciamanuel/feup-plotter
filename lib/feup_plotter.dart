@@ -14,6 +14,7 @@ class FeupPlotter extends StatefulWidget {
   final List<List<int>> result;
   final List<String> labels;
   final Color appBarBgColor;
+  final String screenTitle;
 
   const FeupPlotter({
     super.key,
@@ -22,6 +23,7 @@ class FeupPlotter extends StatefulWidget {
     required this.result,
     required this.labels,
     required this.appBarBgColor,
+    required this.screenTitle,
   });
   //this widget must bring all information we need to plot:
   //the data, the type of plot, the labels, the title, etc.
