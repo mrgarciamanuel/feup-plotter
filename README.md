@@ -35,10 +35,3 @@ You can plot information for single element of you can make comparison between t
 ![Simulator Screenshot - iPhone SE (3rd generation) - 2024-05-24 at 02 13 54](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/8a0fbe79-0558-4fa5-ae29-8412da3bc2d9)
 ![Simulator Screenshot - iPhone SE (3rd generation) - 2024-05-24 at 02 14 14](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/0567eda3-9c17-4b73-b330-536b9d195fe4)
 ![Simulator Screenshot - iPhone SE (3rd generation) - 2024-05-24 at 02 14 24](https://github.com/mrgarciamanuel/feup-plotter/assets/100171179/3ccd165b-6f3f-48ca-8778-e7cbf8199d8c)
-
-## Contributors and maintainers
-
-<a href="https://github.com/mrgarciamanuel/feup-plotter/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=mrgarciamanuel/feup-plotter" />
-</a>
-
