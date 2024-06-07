@@ -119,6 +119,7 @@ class AreaPlot extends CustomPainter {
     }
   }
 
+  //draws the area for each element
   void drawArea(
       Canvas canvas,
       Size size,
