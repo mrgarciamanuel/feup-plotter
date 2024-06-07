@@ -21,6 +21,7 @@ Widget showSomethingWentWrong(
         const Icon(Icons.error, color: Colors.red, size: 100),
         Text(
           errorMessage2,
+          textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 18, color: Colors.red),
         ),
       ],
