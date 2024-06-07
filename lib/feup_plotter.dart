@@ -132,8 +132,8 @@ class _FeupPlotterState extends State<FeupPlotter> {
                 ],
               ),
             )
-          : showSomethingWentWrong(
-              width, width, "No data to plot", "Please provide data to plot"),
+          : showSomethingWentWrong(width, width, "Something went wrong",
+              "Please try again later or verify the data you are trying to plot."),
     );
   }
 }
