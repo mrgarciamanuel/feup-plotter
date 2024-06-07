@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return FeupPlotter(
-      names: const ["Microsoft Inc.", "Testa"],
+      names: const ["Microsoft Inc.", "Tesla"],
       colors: const [Colors.red, Colors.blue],
       labels: const [
         "january",
