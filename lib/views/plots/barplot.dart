@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//class of a graphic that plots numeric values for levels of a categorical feature as bars.
 class BarPlot extends CustomPainter {
   final List<String> names = [];
   final List<Color> colors = [];

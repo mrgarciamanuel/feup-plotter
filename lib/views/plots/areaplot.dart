@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// class of a graphic that makes a visual representation of data that utilizes both lines and filled areas to convey information.
 class AreaPlot extends CustomPainter {
   final List<String> names = [];
   final List<Color> colors = [];

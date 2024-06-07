@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// class of a graphic that use line to connects individual data points that
 class LinePlot extends CustomPainter {
   final List<String> names = [];
   final List<Color> colors = [];
