@@ -1,3 +1,4 @@
-## 0.0.4
+## 0.0.5
 
-* New types of chart availble and some bugs solved
+* MIIT Licence added.
+* symbols documentation
