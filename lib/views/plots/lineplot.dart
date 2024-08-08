@@ -38,7 +38,7 @@ class LinePlot extends CustomPainter {
   ///designs the y axis
   ///canvas: is the object we are going to draw
   ///size: is the size of the area where we are going to draw
-  ///the function return an int value in where will start building the markers of this axis
+  ///the function return an int list values in where will start building the markers of this axis
   List<int> drawYAxis(Canvas canvas, Size size) {
     double x1 = 30;
     double x2 = 30;
@@ -59,7 +59,7 @@ class LinePlot extends CustomPainter {
   ///designs the x axis
   ///canvas: is the object we are going to draw
   ///size: is the size of the area where we are going to draw
-  ///returns an array containing: firs two are coordinates where we'll start building the markers of this axis and the last one are real points in the x axis
+  ///returns an array of int values containing: coordinates where we'll start building the markers of this axis
   List<int> drawXAxis(Canvas canvas, Size size) {
     //par de valores para x e y
     const double x1 = 10;
@@ -142,7 +142,6 @@ class LinePlot extends CustomPainter {
       List<List<Offset>> xPoints,
       List<List<Offset>> yPoints,
       List<int> yValues) {
-    //Map<int, Color> colors = {0: Colors.black, 1: Colors.red};
     Offset initialPoint = const Offset(0, 0);
     Offset endPoint = const Offset(0, 0);
     for (int j = 0; j < names.length; j++) {

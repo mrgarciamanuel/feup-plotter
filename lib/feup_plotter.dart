@@ -63,7 +63,7 @@ class _FeupPlotterState extends State<FeupPlotter> {
       appBar: AppBar(
         title: Text(widget.screenTitle.length < 20
             ? widget.screenTitle
-            : widget.screenTitle.substring(0, 20) + "..."),
+            : "${widget.screenTitle.substring(0, 20)}..."),
         backgroundColor: widget.appBarBgColor,
       ),
       body: widget.labels.isNotEmpty &&
