@@ -24,6 +24,7 @@ class AreaPlot extends CustomPainter {
 
   List<List<Offset>> xPoints = [];
   List<List<Offset>> yPoints = [];
+  double positionAxleX = 0;
 
   Paint getCustomPaint(Color color, double strokeWidth, PaintingStyle style) {
     final customPaint = Paint()
@@ -64,6 +65,7 @@ class AreaPlot extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
     canvas.drawLine(p1, p2, paint);
+    positionAxleX = y1;
     return [x1.toInt() + 10, y1.toInt(), x1.toInt()];
   }
 
@@ -107,6 +109,11 @@ class AreaPlot extends CustomPainter {
     int helper = separator;
     double x = startX;
     double y = size.height - helper;
+
+    if (y != positionAxleX) {
+      y = positionAxleX;
+    }
+
     for (int i = 0; i < yValues.length; i++) {
       final p1 = Offset(x, y - separator); //ponto de partida da linha
       final p2 =

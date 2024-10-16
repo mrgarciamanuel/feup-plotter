@@ -119,7 +119,6 @@ class LinePlot extends CustomPainter {
   }
 
   ///desenha marcadores no eixo Y, o desenho destes marcadores é feito de cima para baixo
-  ///inverter a ordem, fazer com o que o desenho passe a ser de baixo para cima
   void drawYMarkers(Canvas canvas, Size size, double startX) {
     int valFromYaxys = 30 +
         10 +
