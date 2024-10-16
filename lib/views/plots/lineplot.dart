@@ -138,16 +138,10 @@ class LinePlot extends CustomPainter {
       final p2 =
           Offset(x + size.width - 30, y - separator); //ponto final da linha
       final p3 = Offset(x + 10, y - separator);
-      print(p1);
       canvas.drawLine(
           p1, p2, getCustomPaint(Colors.grey, 1, PaintingStyle.stroke));
       yPoints.add([p1, p2, p3]);
       separator += helper;
-
-      if (i == 0) {
-        drawInitailPoint(
-            canvas, size, Color.fromARGB(255, 255, 0, 0), x, y - separator);
-      }
     }
   }
 
