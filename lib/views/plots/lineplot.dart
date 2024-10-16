@@ -3,7 +3,6 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 
-// class of a graphic that use line to connects individual data points that
 class LinePlot extends CustomPainter {
   final List<String> names = [];
   final List<Color> colors = [];
@@ -26,6 +25,7 @@ class LinePlot extends CustomPainter {
   }
   List<List<Offset>> xPoints = [];
   List<List<Offset>> yPoints = [];
+  double positionAxleX = 0;
 
   getCustomPaint(Color color, double strokeWidth, PaintingStyle style) {
     final customPaint = Paint()
@@ -38,7 +38,7 @@ class LinePlot extends CustomPainter {
   ///designs the y axis
   ///canvas: is the object we are going to draw
   ///size: is the size of the area where we are going to draw
-  ///the function return an int value in where will start building the markers of this axis
+  ///the function return an int list values in where will start building the markers of this axis
   List<int> drawYAxis(Canvas canvas, Size size) {
     double x1 = 30;
     double x2 = 30;
@@ -59,7 +59,7 @@ class LinePlot extends CustomPainter {
   ///designs the x axis
   ///canvas: is the object we are going to draw
   ///size: is the size of the area where we are going to draw
-  ///returns an array containing: firs two are coordinates where we'll start building the markers of this axis and the last one are real points in the x axis
+  ///returns an array of int values containing: coordinates where we'll start building the markers of this axis
   List<int> drawXAxis(Canvas canvas, Size size) {
     //par de valores para x e y
     const double x1 = 10;
@@ -75,16 +75,21 @@ class LinePlot extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
     canvas.drawLine(p1, p2, paint);
+    positionAxleX = y1;
     return [x1.toInt() + 10, y1.toInt(), x1.toInt()];
   }
 
-  ///desenha o ponto inicial de cruzamento os dois eixos
-  void drawInitailPoint(Canvas canvas, Size size) {
+  void drawInitailPoint(
+      Canvas canvas, Size size, Color color, double x, double y) {
+    if (x == 0) {
+      x = 30;
+      y = 30;
+    }
     final paint = Paint()
-      ..color = const Color.fromARGB(255, 0, 0, 0)
+      ..color = color
       ..strokeWidth = 3
       ..style = PaintingStyle.fill;
-    canvas.drawCircle(Offset(30, size.width - 30), 2, paint);
+    canvas.drawCircle(Offset(x, size.width - y), 2, paint);
   }
 
   ///desenha marcadores no eixo X
@@ -113,24 +118,37 @@ class LinePlot extends CustomPainter {
     }
   }
 
-  ///desenha marcadores no eixo Y
+  ///desenha marcadores no eixo Y, o desenho destes marcadores é feito de cima para baixo
+  ///inverter a ordem, fazer com o que o desenho passe a ser de baixo para cima
   void drawYMarkers(Canvas canvas, Size size, double startX) {
     int valFromYaxys = 30 +
         10 +
         10; //tirar os valores do size já ocupados pelas margens do eixo
-    int separator = ((size.height - valFromYaxys) / (yValues.length)).ceil();
-    int helper = separator;
+    double finalArea = size.height - valFromYaxys;
+    double separator = finalArea / yValues.length.ceil();
+    int helper = separator.ceil();
     double x = startX;
     double y = size.height - helper;
+
+    if (y != positionAxleX) {
+      y = positionAxleX;
+    }
+
     for (int i = 0; i < yValues.length; i++) {
       final p1 = Offset(x, y - separator); //ponto de partida da linha
       final p2 =
           Offset(x + size.width - 30, y - separator); //ponto final da linha
       final p3 = Offset(x + 10, y - separator);
+      print(p1);
       canvas.drawLine(
           p1, p2, getCustomPaint(Colors.grey, 1, PaintingStyle.stroke));
       yPoints.add([p1, p2, p3]);
       separator += helper;
+
+      if (i == 0) {
+        drawInitailPoint(
+            canvas, size, Color.fromARGB(255, 255, 0, 0), x, y - separator);
+      }
     }
   }
 
@@ -142,7 +160,6 @@ class LinePlot extends CustomPainter {
       List<List<Offset>> xPoints,
       List<List<Offset>> yPoints,
       List<int> yValues) {
-    //Map<int, Color> colors = {0: Colors.black, 1: Colors.red};
     Offset initialPoint = const Offset(0, 0);
     Offset endPoint = const Offset(0, 0);
     for (int j = 0; j < names.length; j++) {
@@ -267,9 +284,8 @@ class LinePlot extends CustomPainter {
       setText(labels[i].length > 5 ? labels[i].substring(0, 4) : labels[i],
           canvas, size, xPoints[i][0], "x");
     }
-
     drawPoint(canvas, size, values, xPoints, yPoints, yValues);
-    drawInitailPoint(canvas, size);
+    drawInitailPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
   }
 
   @override

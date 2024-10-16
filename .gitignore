@@ -32,3 +32,6 @@ pubspec.lock
 package_config_subset
 .dart_tool/version
 .dart_tool/package_config.json
+
+# Documentation
+documentation
