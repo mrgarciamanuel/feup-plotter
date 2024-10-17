@@ -51,3 +51,68 @@ returnPossibleValues(List<List<int>> values) {
   valores.sort();
   return valores;
 }
+
+///designs the y axis
+///canvas: is the object we are going to draw
+///size: is the size of the area where we are going to draw
+///the function return an int list values in where will start building the markers of this axis
+List<int> drawYAxis(Canvas canvas, Size size) {
+  double x1 = 30;
+  double x2 = 30;
+  double y1 = 10;
+  double y2 = size.height - 10;
+
+  final p1 = Offset(x1, y1);
+  final p2 = Offset(x2, y2);
+
+  final paint = Paint()
+    ..color = Colors.black
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 1;
+  canvas.drawLine(p1, p2, paint);
+  return [x1.toInt() - 10, x2.toInt() - 10];
+}
+
+///Method used to draw initial point and somethimes to test the draw of the points
+void drawInitailPoint(
+    Canvas canvas, Size size, Color color, double x, double y) {
+  if (x == 0) {
+    x = 30;
+    y = 30;
+  }
+  final paint = Paint()
+    ..color = color
+    ..strokeWidth = 3
+    ..style = PaintingStyle.fill;
+  canvas.drawCircle(Offset(x, size.width - y), 2, paint);
+}
+
+//escrever textos no canvas
+void setText(
+    String text, Canvas canvas, Size size, Offset location, String axis) {
+  const textStyle = TextStyle(
+    color: Colors.black,
+    fontSize: 12,
+  );
+
+  var textSpan = TextSpan(
+    text: text,
+    style: textStyle,
+  );
+
+  var textPainter = TextPainter(
+    text: textSpan,
+    textDirection: TextDirection.ltr,
+  );
+
+  textPainter.layout(
+    minWidth: 0,
+    maxWidth: size.width,
+  );
+
+  textPainter.paint(
+    canvas,
+    Offset(axis == "x" ? location.dx - 10 : location.dx - 10,
+        axis == "x" ? location.dy : location.dy - 10),
+  );
+}

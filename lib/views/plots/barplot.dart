@@ -1,3 +1,4 @@
+import 'package:feup_plotter/controllers/functions.dart';
 import 'package:flutter/material.dart';
 
 //class of a graphic that plots numeric values for levels of a categorical feature as bars.
@@ -34,23 +35,6 @@ class BarPlot extends CustomPainter {
     return customPaint;
   }
 
-  List<int> drawYAxis(Canvas canvas, Size size) {
-    double x1 = 30;
-    double x2 = 30;
-    double y1 = 10;
-    double y2 = size.height - 10;
-
-    final p1 = Offset(x1, y1);
-    final p2 = Offset(x2, y2);
-
-    final paint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    canvas.drawLine(p1, p2, paint);
-    return [x1.toInt() - 10, x2.toInt() - 10];
-  }
-
   List<int> drawXAxis(Canvas canvas, Size size) {
     const double x1 = 10;
     double x2 = size.width - 10;
@@ -67,14 +51,6 @@ class BarPlot extends CustomPainter {
     canvas.drawLine(p1, p2, paint);
     positionAxleX = y1;
     return [x1.toInt() + 10, y1.toInt(), x1.toInt()];
-  }
-
-  void drawInitailPoint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color.fromARGB(255, 0, 0, 0)
-      ..strokeWidth = 3
-      ..style = PaintingStyle.fill;
-    canvas.drawCircle(Offset(30, size.width - 30), 2, paint);
   }
 
   void drawXMarkers(Canvas canvas, Size size, double startX) {
@@ -206,7 +182,7 @@ class BarPlot extends CustomPainter {
     }
 
     drawBars(canvas, size, values, xPoints, yPoints, yValues);
-    drawInitailPoint(canvas, size);
+    drawInitailPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
   }
 
   @override
