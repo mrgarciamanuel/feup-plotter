@@ -95,11 +95,14 @@ class _FeupPlotterState extends State<FeupPlotter> {
                     height: 5,
                   ),
                   SizedBox(
+                      child: GestureDetector(
+                    onTap: () => print("object"),
+                    onDoubleTap: () => print("object"),
                     child: CustomPaint(
                       size: Size(width - 10, width - 10),
                       painter: selectedPlot,
                     ),
-                  ),
+                  )),
                   const SizedBox(
                     height: 10,
                   ),
