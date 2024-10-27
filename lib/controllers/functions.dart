@@ -73,8 +73,24 @@ List<int> drawYAxis(Canvas canvas, Size size) {
   return [x1.toInt() - 10, x2.toInt() - 10];
 }
 
+void drawTrackBall(Canvas canvas, Size size) {
+  double x1 = 30;
+  double x2 = 30;
+  double y1 = 10;
+  double y2 = size.height - 20;
+
+  final p1 = Offset(x1, y1);
+  final p2 = Offset(x2, y2);
+
+  final paint = Paint()
+    ..color = Color.fromARGB(255, 255, 0, 0)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 3;
+  canvas.drawLine(p1, p2, paint);
+}
+
 ///Method used to draw initial point and somethimes to test the draw of the points
-void drawInitailPoint(
+void drawInitialPoint(
     Canvas canvas, Size size, Color color, double x, double y) {
   if (x == 0) {
     x = 30;
