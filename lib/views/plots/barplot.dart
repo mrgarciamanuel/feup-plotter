@@ -182,7 +182,7 @@ class BarPlot extends CustomPainter {
     }
 
     drawBars(canvas, size, values, xPoints, yPoints, yValues);
-    drawInitailPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
+    drawInitialPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
   }
 
   @override
