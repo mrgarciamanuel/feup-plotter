@@ -32,23 +32,34 @@ class FeupPlotter extends StatefulWidget {
   State<FeupPlotter> createState() => _FeupPlotterState(values: result);
 }
 
-class _FeupPlotterState extends State<FeupPlotter> {
+class _FeupPlotterState
+    extends State<FeupPlotter> /*with TickerProviderStateMixin*/ {
+  //double _progress = 0.0;
+  late Animation<double> animation;
   List<List<int>> values;
   String defaultDropdownvalue = "line";
   CustomPainter? selectedPlot;
   Map<String, CustomPainter> plots = {};
 
   _FeupPlotterState({required this.values});
+  double xTrackball = 30;
+  double yTrackball = 100;
+  //double yPOs = 100;
+  double ball = 20;
+  bool isClick = false;
+  double trackActualPositionX = 0;
+  double trackActualPositionY = 0;
 
   @override
   void initState() {
     super.initState();
+
     selectedPlot = LinePlot(widget.names, widget.colors, widget.labels,
-        returnPossibleValues(widget.result), widget.result);
+        returnPossibleValues(widget.result), widget.result, xTrackball);
 
     plots = {
       "line": LinePlot(widget.names, widget.colors, widget.labels,
-          returnPossibleValues(widget.result), widget.result),
+          returnPossibleValues(widget.result), widget.result, xTrackball),
       "area": AreaPlot(widget.names, widget.colors, widget.labels,
           returnPossibleValues(widget.result), widget.result),
       "bar": BarPlot(widget.names, widget.colors, widget.labels,
@@ -59,6 +70,11 @@ class _FeupPlotterState extends State<FeupPlotter> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    //to delete later
+    LinePlot linePlot = LinePlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result, xTrackball);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.screenTitle.length < 20
@@ -96,13 +112,41 @@ class _FeupPlotterState extends State<FeupPlotter> {
                   ),
                   SizedBox(
                       child: GestureDetector(
-                    onTap: () => print("object"),
-                    onDoubleTap: () => print("object"),
-                    child: CustomPaint(
-                      size: Size(width - 10, width - 10),
-                      painter: selectedPlot,
-                    ),
-                  )),
+                          onHorizontalDragDown: (details) {
+                            setState(() {
+                              isClick = true;
+                            });
+                          },
+                          onHorizontalDragEnd: (details) {
+                            setState(() {
+                              getValuesFromActualTrackPosition(
+                                  xTrackball, yTrackball);
+                              isClick = false;
+                            });
+                          },
+                          onHorizontalDragUpdate: (details) {
+                            if (isClick) {
+                              setState(() {
+                                xTrackball = details.localPosition.dx;
+                                yTrackball = details.localPosition.dy;
+                              });
+                            }
+                          },
+                          onVerticalDragUpdate: (details) {
+                            if (isClick) {
+                              setState(() {
+                                xTrackball = details.localPosition.dx;
+                              });
+                            }
+                          },
+                          child: SizedBox(
+                            width: width - 10,
+                            height: width - 10,
+                            child: CustomPaint(
+                              size: Size(width - 10, width - 10),
+                              painter: linePlot,
+                            ),
+                          ))),
                   const SizedBox(
                     height: 10,
                   ),
