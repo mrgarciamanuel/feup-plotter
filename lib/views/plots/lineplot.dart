@@ -1,7 +1,6 @@
-import 'dart:math';
 import 'dart:developer' as developer;
+import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
-import 'package:feup_plotter/controllers/trackPainter.dart';
 import 'package:flutter/material.dart';
 
 class LinePlot extends CustomPainter {
@@ -11,8 +10,6 @@ class LinePlot extends CustomPainter {
   final List<int> yValues = [];
   List<List<int>> values = [];
   final double x1Trackball;
-  final double x2Trackball;
-  final double ballRad;
 
   LinePlot(
     List<String> names,
@@ -21,8 +18,6 @@ class LinePlot extends CustomPainter {
     List<int> yValues,
     List<List<int>> values,
     this.x1Trackball,
-    this.x2Trackball,
-    this.ballRad,
   ) {
     this.names.addAll(names);
     this.colors.addAll(colors);
@@ -126,9 +121,11 @@ class LinePlot extends CustomPainter {
       List<List<Offset>> xPoints,
       List<List<Offset>> yPoints,
       List<int> yValues) {
+    xPointValues = [];
     Offset initialPoint = const Offset(0, 0);
     Offset endPoint = const Offset(0, 0);
     for (int j = 0; j < names.length; j++) {
+      xPointValues.add([]);
       int cont = 0;
       for (int i = (values[j].length - 1); i >= 0; i--) {
         if (values[j].length == labels.length) {
@@ -162,7 +159,6 @@ class LinePlot extends CustomPainter {
           canvas.drawCircle(
               Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 2, paint);
           //depois de desenhar os pontos de interceição, armazer esses valores para que os possa utilizar no trackball
-          print(0);
           //desenho da primeira linha, começar do zero
           if (i == 0) {
             drawLineLink(canvas, Offset(30, size.height - 30),
@@ -176,6 +172,7 @@ class LinePlot extends CustomPainter {
             initialPoint = endPoint;
           }
           cont++;
+          xPointValues[j].add(Offset(endPoint.dx, endPoint.dy));
         } else {
           developer.log('This element has diferent size than labels');
         }
@@ -224,7 +221,7 @@ class LinePlot extends CustomPainter {
     }
     drawPoint(canvas, size, values, xPoints, yPoints, yValues);
     drawInitialPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
-    drawTrackBall(canvas, size, x1Trackball, x2Trackball);
+    drawTrackBall(canvas, size, x1Trackball);
   }
 
   @override
