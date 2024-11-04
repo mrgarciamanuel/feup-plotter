@@ -89,7 +89,7 @@ void drawInitialPoint(
   canvas.drawCircle(Offset(x, size.width - y), 2, paint);
 }
 
-void drawTrackBall(Canvas canvas, Size size, double xTrackBall, x2TrackBall) {
+void drawTrackBall(Canvas canvas, Size size, double xTrackBall) {
   //definir os pontos iniciais do trackball
   if (xTrackBall == 0) {
     xTrackBall = 10;
@@ -105,17 +105,9 @@ void drawTrackBall(Canvas canvas, Size size, double xTrackBall, x2TrackBall) {
   Path path = Path();
 
   path.moveTo(xTrackBall, yTrackBall);
-  path.lineTo(xTrackBall, size.height - 10);
+  path.lineTo(xTrackBall, size.height - 30);
   path.close();
   canvas.drawPath(path, paint);
-}
-
-bool isBallRegion(
-    double checkX, double checkY, double xPosition, double yPosition) {
-  if ((pow(xPosition - checkX, 2) + pow(yPosition - checkY, 2)) <= 100) {
-    return true;
-  }
-  return false;
 }
 
 //escrever textos no canvas
@@ -146,4 +138,9 @@ void setText(
     Offset(axis == "x" ? location.dx - 10 : location.dx - 10,
         axis == "x" ? location.dy : location.dy - 10),
   );
+}
+
+///Método que pega na posição atual e vai buscar os valores para cada elemente nessa posição ou perto dela
+void getValuesFromActualTrackPosition(xPos, yPos) {
+  print("x: $xPos, y: $yPos");
 }
