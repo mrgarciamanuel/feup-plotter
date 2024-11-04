@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -73,22 +75,6 @@ List<int> drawYAxis(Canvas canvas, Size size) {
   return [x1.toInt() - 10, x2.toInt() - 10];
 }
 
-void drawTrackBall(Canvas canvas, Size size) {
-  double x1 = 30;
-  double x2 = 30;
-  double y1 = 10;
-  double y2 = size.height - 20;
-
-  final p1 = Offset(x1, y1);
-  final p2 = Offset(x2, y2);
-
-  final paint = Paint()
-    ..color = Color.fromARGB(255, 255, 0, 0)
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 3;
-  canvas.drawLine(p1, p2, paint);
-}
-
 ///Method used to draw initial point and somethimes to test the draw of the points
 void drawInitialPoint(
     Canvas canvas, Size size, Color color, double x, double y) {
@@ -101,6 +87,35 @@ void drawInitialPoint(
     ..strokeWidth = 3
     ..style = PaintingStyle.fill;
   canvas.drawCircle(Offset(x, size.width - y), 2, paint);
+}
+
+void drawTrackBall(Canvas canvas, Size size, double xTrackBall, x2TrackBall) {
+  //definir os pontos iniciais do trackball
+  if (xTrackBall == 0) {
+    xTrackBall = 10;
+  }
+
+  double yTrackBall = 10;
+
+  final paint = Paint()
+    ..color = const Color.fromARGB(255, 0, 0, 0)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 2;
+
+  Path path = Path();
+
+  path.moveTo(xTrackBall, yTrackBall);
+  path.lineTo(xTrackBall, size.height - 10);
+  path.close();
+  canvas.drawPath(path, paint);
+}
+
+bool isBallRegion(
+    double checkX, double checkY, double xPosition, double yPosition) {
+  if ((pow(xPosition - checkX, 2) + pow(yPosition - checkY, 2)) <= 100) {
+    return true;
+  }
+  return false;
 }
 
 //escrever textos no canvas
