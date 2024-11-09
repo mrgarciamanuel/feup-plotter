@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -89,7 +88,8 @@ void drawInitialPoint(
   canvas.drawCircle(Offset(x, size.width - y), 2, paint);
 }
 
-void drawTrackBall(Canvas canvas, Size size, double xTrackBall) {
+void drawTrackBall(
+    Canvas canvas, Size size, double xTrackBall, int labelCount) {
   //definir os pontos iniciais do trackball
   if (xTrackBall == 0) {
     xTrackBall = 10;
@@ -98,7 +98,7 @@ void drawTrackBall(Canvas canvas, Size size, double xTrackBall) {
   double yTrackBall = 10;
 
   final paint = Paint()
-    ..color = const Color.fromARGB(255, 0, 0, 0)
+    ..color = const Color.fromARGB(255, 90, 90, 90)
     ..style = PaintingStyle.stroke
     ..strokeWidth = 2;
 
@@ -141,6 +141,20 @@ void setText(
 }
 
 ///Método que pega na posição atual e vai buscar os valores para cada elemente nessa posição ou perto dela
-void getValuesFromActualTrackPosition(xPos, yPos) {
-  print("x: $xPos, y: $yPos");
+///resolver o erro, estou a escrever os mesmos valores para todos elementos na tooltip
+String getValuesFromActualTrackPosition(xPos, yPos, List<String> labels) {
+  List<double> values = [];
+  String result = "";
+  for (int i = 0; i < xPointValuesInt.length; i++) {
+    for (int j = 0; j < xPointValuesInt[i].length; j++) {
+      if (xPos.ceil() == xPointValuesInt[i][j] ||
+          xPos.floor() == xPointValuesInt[i][j]) {
+        values.add(xPointValuesInt[i][j].toDouble());
+      }
+    }
+  }
+  for (int i = 0; i < values.length; i++) {
+    result += "${labels[i]} = ${values[i]}, ";
+  }
+  return result;
 }
