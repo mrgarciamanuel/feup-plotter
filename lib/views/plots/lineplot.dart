@@ -122,10 +122,12 @@ class LinePlot extends CustomPainter {
       List<List<Offset>> yPoints,
       List<int> yValues) {
     xPointValues = [];
+    xPointValuesInt = [];
     Offset initialPoint = const Offset(0, 0);
     Offset endPoint = const Offset(0, 0);
     for (int j = 0; j < names.length; j++) {
       xPointValues.add([]);
+      xPointValuesInt.add([]);
       int cont = 0;
       for (int i = (values[j].length - 1); i >= 0; i--) {
         if (values[j].length == labels.length) {
@@ -157,7 +159,7 @@ class LinePlot extends CustomPainter {
             ..style = PaintingStyle.fill;
 
           canvas.drawCircle(
-              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 2, paint);
+              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 2.5, paint);
           //depois de desenhar os pontos de interceição, armazer esses valores para que os possa utilizar no trackball
           //desenho da primeira linha, começar do zero
           if (i == 0) {
@@ -173,6 +175,7 @@ class LinePlot extends CustomPainter {
           }
           cont++;
           xPointValues[j].add(Offset(endPoint.dx, endPoint.dy));
+          xPointValuesInt[j].add(endPoint.dx.toInt());
         } else {
           developer.log('This element has diferent size than labels');
         }
@@ -221,7 +224,7 @@ class LinePlot extends CustomPainter {
     }
     drawPoint(canvas, size, values, xPoints, yPoints, yValues);
     drawInitialPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
-    drawTrackBall(canvas, size, x1Trackball);
+    drawTrackBall(canvas, size, x1Trackball, labels.length);
   }
 
   @override
