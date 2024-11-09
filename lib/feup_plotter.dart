@@ -3,6 +3,7 @@ library feup_plotter;
 //this will be the plot page basically
 import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
+import 'package:feup_plotter/controllers/plotter_tooltip.dart';
 import 'package:feup_plotter/views/plots/areaplot.dart';
 import 'package:feup_plotter/views/plots/lineplot.dart';
 import 'package:feup_plotter/views/plots/barplot.dart';
@@ -49,6 +50,7 @@ class _FeupPlotterState
   bool isClick = false;
   double trackActualPositionX = 0;
   double trackActualPositionY = 0;
+  String trackBallValue = "";
 
   @override
   void initState() {
@@ -119,8 +121,8 @@ class _FeupPlotterState
                           },
                           onHorizontalDragEnd: (details) {
                             setState(() {
-                              getValuesFromActualTrackPosition(
-                                  xTrackball, yTrackball);
+                              trackBallValue = getValuesFromActualTrackPosition(
+                                  xTrackball, yTrackball, widget.names);
                               isClick = false;
                             });
                           },
@@ -145,6 +147,10 @@ class _FeupPlotterState
                             child: CustomPaint(
                               size: Size(width - 10, width - 10),
                               painter: linePlot,
+                              child: PlotterToolTip(
+                                message: trackBallValue.toString(),
+                                child: Container(),
+                              ),
                             ),
                           ))),
                   const SizedBox(
