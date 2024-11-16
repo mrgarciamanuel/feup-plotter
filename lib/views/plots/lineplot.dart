@@ -60,7 +60,7 @@ class LinePlot extends CustomPainter {
     return [x1.toInt() + 10, y1.toInt(), x1.toInt()];
   }
 
-  ///desenha marcadores no eixo X
+  ///desenha marcadores no eixo X - as labels
   void drawXMarkers(Canvas canvas, Size size, double startX) {
     //zerar sempre no início para não acumular valores além do que preciso
     yPoints = [];
@@ -72,7 +72,7 @@ class LinePlot extends CustomPainter {
     int helper = separator;
     double x = startX;
 
-    for (int i = 0; i < yValues.length; i++) {
+    for (int i = 0; i < labels.length; i++) {
       final p1 = Offset(x + separator, size.height - 25);
       final p2 = Offset(x + separator, size.height - 35);
       final p3 = Offset(x + separator, size.height - 30);
@@ -123,11 +123,13 @@ class LinePlot extends CustomPainter {
       List<int> yValues) {
     xPointValues = [];
     xPointValuesInt = [];
+    yPointValuesInt = [];
     Offset initialPoint = const Offset(0, 0);
     Offset endPoint = const Offset(0, 0);
     for (int j = 0; j < names.length; j++) {
       xPointValues.add([]);
       xPointValuesInt.add([]);
+      yPointValuesInt.add([]);
       int cont = 0;
       for (int i = (values[j].length - 1); i >= 0; i--) {
         if (values[j].length == labels.length) {
@@ -176,6 +178,7 @@ class LinePlot extends CustomPainter {
           cont++;
           xPointValues[j].add(Offset(endPoint.dx, endPoint.dy));
           xPointValuesInt[j].add(endPoint.dx.toInt());
+          yPointValuesInt[j].add(endPoint.dy.toInt());
         } else {
           developer.log('This element has diferent size than labels');
         }
@@ -214,7 +217,7 @@ class LinePlot extends CustomPainter {
     drawXMarkers(canvas, size, startXaxiX.toDouble());
     drawYMarkers(canvas, size, startXaxiY.toDouble());
     //aqui escrevo os textos no eixo y
-    for (int i = 0; i < xPoints.length; i++) {
+    for (int i = 0; i < yPoints.length; i++) {
       setText(yValues[i].toString(), canvas, size, yPoints[i][0], "y");
     }
     //aqui escrevo os labels no eixo x
