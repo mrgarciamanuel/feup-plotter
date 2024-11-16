@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+import 'dart:math';
 import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
 import 'package:flutter/material.dart';
@@ -125,7 +126,8 @@ class LinePlot extends CustomPainter {
     xPointValuesInt = [];
     yPointValuesInt = [];
     Offset initialPoint = const Offset(0, 0);
-    Offset endPoint = const Offset(0, 0);
+    Offset endPoint = const Offset(
+        0, 0); //armazena os valores finais dos pontos de interceção
     for (int j = 0; j < names.length; j++) {
       xPointValues.add([]);
       xPointValuesInt.add([]);
@@ -133,6 +135,7 @@ class LinePlot extends CustomPainter {
       int cont = 0;
       for (int i = (values[j].length - 1); i >= 0; i--) {
         if (values[j].length == labels.length) {
+          //if (i < 3) {
           //posição do valor no eixo y
           var value = values[j][i];
           var pos = yValues.indexOf(value);
@@ -154,6 +157,7 @@ class LinePlot extends CustomPainter {
 
           if (cont == 0) {
             endPoint = Offset(xPoints[i][2].dx, yPoints[pos][2].dy);
+            //print(endPoint.dx);
           }
           final paint = Paint()
             ..color = colors[j]
@@ -161,12 +165,16 @@ class LinePlot extends CustomPainter {
             ..style = PaintingStyle.fill;
 
           canvas.drawCircle(
-              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 2.5, paint);
+              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 3.5, paint);
           //depois de desenhar os pontos de interceição, armazer esses valores para que os possa utilizar no trackball
           //desenho da primeira linha, começar do zero
           if (i == 0) {
             drawLineLink(canvas, Offset(30, size.height - 30),
                 Offset(xPoints[i][2].dx, yPoints[pos][2].dy), colors[j]);
+            endPoint = Offset(
+                xPoints[xPoints.length - 2][2].dx,
+                yPoints[yPoints.length - 2][2]
+                    .dy); //solved problem of having same value repeated, try to use another approach
           } else if (i == (values[j].length - 1)) {
             //desenho da última linha
             drawLineLink(canvas, initialPoint, endPoint, colors[j]);
@@ -175,6 +183,7 @@ class LinePlot extends CustomPainter {
             drawLineLink(canvas, initialPoint, endPoint, colors[j]);
             initialPoint = endPoint;
           }
+
           cont++;
           xPointValues[j].add(Offset(endPoint.dx, endPoint.dy));
           xPointValuesInt[j].add(endPoint.dx.toInt());
@@ -183,6 +192,8 @@ class LinePlot extends CustomPainter {
           developer.log('This element has diferent size than labels');
         }
       }
+      yPointValuesInt.sort();
+      xPointValuesInt.sort();
     }
   }
 
