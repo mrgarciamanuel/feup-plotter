@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PlotterToolTip extends Tooltip {
-  PlotterToolTip({required Widget child, required String message})
-      : super(child: child, message: message);
+  const PlotterToolTip(
+      {super.key,
+      required Widget child,
+      required String message,
+      required TooltipTriggerMode triggerMode})
+      : super(child: child, message: message, triggerMode: triggerMode);
 }
