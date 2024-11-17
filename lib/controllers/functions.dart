@@ -141,15 +141,19 @@ void setText(
 }
 
 ///Método que pega na posição atual e vai buscar os valores para cada elemente nessa posição ou perto dela
-///resolver o erro, estou a escrever os mesmos valores para todos elementos na tooltip
-String getValuesFromActualTrackPosition(xPos, yPos, List<String> labels) {
+///Resolver o erro, estou a escrever os mesmos valores para todos elementos na tooltip
+String getValuesFromActualTrackPosition(
+    double xPos, double yPos, List<String> labels) {
   List<double> values = [];
   String result = "";
   for (int i = 0; i < xPointValuesInt.length; i++) {
-    for (int j = 0; j < xPointValuesInt[i].length; j++) {
-      if (xPos.ceil() == xPointValuesInt[i][j] ||
-          xPos.floor() == xPointValuesInt[i][j]) {
-        values.add(xPointValuesInt[i][j].toDouble());
+    for (int j = 0; j < yPointValuesInt[i].length; j++) {
+      if (yPos.ceil() == yPointValuesInt[i][j] ||
+          yPos.floor() == yPointValuesInt[i][j] ||
+          findNearValue(xPos.ceil(), 0)) {
+        if (!values.contains(yPointValuesInt[i][j].toDouble())) {
+          values.add(yPointValuesInt[i][j].toDouble());
+        }
       }
     }
   }
@@ -157,4 +161,19 @@ String getValuesFromActualTrackPosition(xPos, yPos, List<String> labels) {
     result += "${labels[i]} = ${values[i]}, ";
   }
   return result;
+}
+
+///vou pegar o inteiro da posição
+bool findNearValue(int xPos, int labelPos) {
+  bool status = false;
+  int lowerValue = xPos - 3;
+  int highValue = xPos + 3;
+  for (int i = 0; i < xPointValuesInt[labelPos].length; i++) {
+    if (xPointValuesInt[labelPos][i] >= lowerValue &&
+        xPointValuesInt[labelPos][i] <= highValue) {
+      status = true;
+      break;
+    }
+  }
+  return status;
 }
