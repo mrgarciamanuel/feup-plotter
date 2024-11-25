@@ -17,3 +17,7 @@ var charts = [
 
 List<List<Offset>> xPointValues = [];
 List<List<int>> xPointValuesInt = [];
+List<List<int>> yPointValuesInt = [];
+Map<int, List<int>> yFinalValuesMap = {};
+
+//criar um novo array com os valores em Y, a chave das valores têm de ser a coordenada x
