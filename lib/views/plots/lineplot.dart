@@ -124,19 +124,58 @@ class LinePlot extends CustomPainter {
     xPointValues = [];
     xPointValuesInt = [];
     yPointValuesInt = [];
-    Offset initialPoint = const Offset(0, 0);
     Offset endPoint = const Offset(
         0, 0); //armazena os valores finais dos pontos de interceção
     for (int j = 0; j < names.length; j++) {
       xPointValues.add([]);
-      xPointValuesInt.add([]);
+      //xPointValuesInt.add();
       yPointValuesInt.add([]);
-      int cont = 0;
-      for (int i = (values[j].length - 1); i >= 0; i--) {
+      //int cont = 0;
+      Offset pointZero = Offset(30, size.height - 30);
+      Offset initialPoint = pointZero;
+      for (int i = 0; i < values[j].length; i++) {
+        if (values[j].length == labels.length) {
+          var value = values[j][i];
+          var pos = yValues.indexOf(value);
+
+          final paint = Paint()
+            ..color = colors[j]
+            ..strokeWidth = 3
+            ..style = PaintingStyle.fill;
+
+          canvas.drawCircle(
+              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 3.5, paint);
+
+          drawLineLink(canvas, initialPoint,
+              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), colors[j]);
+          endPoint = Offset(xPoints[i][2].dx, yPoints[pos][2].dy);
+
+          initialPoint = Offset(xPoints[i][2].dx, yPoints[pos][2].dy);
+          xPointValues[j].add(Offset(endPoint.dx, endPoint.dy));
+          if (names.length == 1) {
+            if (yFinalValuesSingleMap.length < values[j].length) {
+              yFinalValuesSingleMap[endPoint.dx.toInt()] = (values[j][i]);
+            }
+          } else {
+            yFinalValuesMap[endPoint.dx.toInt()]!.add(values[j][i]);
+          }
+
+          if (!xPointValuesInt.contains(endPoint.dx.toInt())) {
+            xPointValuesInt.add(endPoint.dx.toInt());
+          }
+          //xPointValuesInt.add(endPoint.dx.toInt());
+          yPointValuesInt[j].add(endPoint.dy.toInt());
+        } else {
+          developer.log('This element has diferent size than labels');
+        }
+      }
+      //print(yFinalValuesSingleMap.length);
+      /*for (int i = (values[j].length - 1); i >= 0; i--) {
         if (values[j].length == labels.length) {
           var value = values[j][i];
           var pos = yValues.indexOf(value);
           //como estamos a desenhar de trás para frente, precisamos pegar o próximo valor que será tratado como o ponto inicial do próximo desenho
+          //porque estou a desenhar de trás para frente?
           if (i >= 1) {
             var nextValue = values[j][i - 1];
 
@@ -165,31 +204,40 @@ class LinePlot extends CustomPainter {
           //depois de desenhar os pontos de interceição, armazer esses valores para que os possa utilizar no trackball
           //desenho da primeira linha, começar do zero
           if (i == 0) {
+            print(endPoint.dx);
+            print(values[j][i]);
+
             drawLineLink(canvas, Offset(30, size.height - 30),
                 Offset(xPoints[i][2].dx, yPoints[pos][2].dy), colors[j]);
             endPoint = Offset(
                 xPoints[xPoints.length - 2][2].dx,
                 yPoints[yPoints.length - 2][2]
                     .dy); //solved problem of having same value repeated, try to use another approach
+            //yFinalValuesMap[endPoint.dx.toInt()]!.add(values[j][i]);
           } else if (i == (values[j].length - 1)) {
             //desenho da última linha
             drawLineLink(canvas, initialPoint, endPoint, colors[j]);
+            //yFinalValuesMap[endPoint.dx.toInt()]!.add(values[j][i]);
           } else {
             //desenho da penúltima linha até a segunda
             drawLineLink(canvas, initialPoint, endPoint, colors[j]);
             initialPoint = endPoint;
+            //yFinalValuesMap[endPoint.dx.toInt()]!.add(values[j][i]);
           }
           cont++;
           xPointValues[j].add(Offset(endPoint.dx, endPoint.dy));
           xPointValuesInt[j].add(endPoint.dx.toInt());
           yPointValuesInt[j].add(endPoint.dy.toInt());
+          //print(endPoint.dx);
+          yFinalValuesMap[endPoint.dx.toInt()]!.add(values[j][i]);
         } else {
           developer.log('This element has diferent size than labels');
         }
-      }
+      }*/
       //yPointValuesInt.sort();
       //xPointValuesInt.sort();
     }
+    print(yFinalValuesSingleMap);
   }
 
   ///desenha uma linha que liga dois pontos
