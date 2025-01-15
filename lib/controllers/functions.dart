@@ -145,33 +145,41 @@ void setText(
 String getValuesFromActualTrackPosition(
     double xPos, double yPos, List<String> names) {
   List<double> values = [];
+  List<List<int>> valuesMultiple = [];
   String result = "";
   int valor = 0;
-  for (int i = 0; i < names.length; i++) {
-    for (int j = 0; j < xPointValuesInt[i].length; j++) {
-      valor = findNearValue(xPos.ceil(), i);
-      if (valor != 0) {
-        if (!values.contains(xPos)) {
-          values.add(xPos);
-        }
-      }
+
+  valor = findNearValue(xPos.ceil());
+  if (valor != 0) {
+    if (names.length == 1) {
+      values.add(yFinalValuesSingleMap[valor]!.toDouble());
+    } else {
+      valuesMultiple.add(yFinalValuesMap[valor]!);
     }
   }
-  for (int i = 0; i < values.length; i++) {
-    result += "${names[i]} = ${values[i]}, ";
+
+  if (names.length == 1) {
+    for (int i = 0; i < values.length; i++) {
+      result += "${names[i]} = ${values[i]}";
+    }
+  } else {
+    for (int i = 0; i < valuesMultiple.length; i++) {
+      result +=
+          "${names[0]} = ${valuesMultiple[i][0]}, ${names[1]} = ${valuesMultiple[i][1]},";
+    }
   }
+
   return result;
 }
 
 ///vou pegar o inteiro da posição
-int findNearValue(int xPos, int labelPos) {
+int findNearValue(int xPos) {
   int valor = 0;
   int lowerValue = xPos - 3;
   int highValue = xPos + 3;
-  for (int i = 0; i < xPointValuesInt[labelPos].length; i++) {
-    if (xPointValuesInt[labelPos][i] >= lowerValue &&
-        xPointValuesInt[labelPos][i] <= highValue) {
-      valor = xPointValuesInt[labelPos][i];
+  for (int i = 0; i < xPointValuesInt.length; i++) {
+    if (xPointValuesInt[i] >= lowerValue && xPointValuesInt[i] <= highValue) {
+      valor = xPointValuesInt[i];
       break;
     }
   }
