@@ -165,7 +165,7 @@ String getValuesFromActualTrackPosition(
   } else {
     for (int i = 0; i < valuesMultiple.length; i++) {
       result +=
-          "${names[0]} = ${valuesMultiple[i][0]}, ${names[1]} = ${valuesMultiple[i][1]},";
+          "${names[0]} = ${valuesMultiple[i][0]}, ${names[1]} = ${valuesMultiple[i][1]}";
     }
   }
 

@@ -209,7 +209,6 @@ class LinePlot extends CustomPainter {
           canvas, size, xPoints[i][0], "x");
       yFinalValuesMap[xPoints[i][0].dx.toInt()] = [];
     }
-
     drawPoint(canvas, size, values, xPoints, yPoints, yValues);
     drawInitialPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
     drawTrackBall(canvas, size, x1Trackball, labels.length);
