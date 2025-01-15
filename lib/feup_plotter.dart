@@ -41,6 +41,7 @@ class _FeupPlotterState
   String defaultDropdownvalue = "line";
   CustomPainter? selectedPlot;
   Map<String, CustomPainter> plots = {};
+  final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
 
   _FeupPlotterState({required this.values});
   double xTrackball = 30;
@@ -131,6 +132,7 @@ class _FeupPlotterState
                               setState(() {
                                 xTrackball = details.localPosition.dx;
                                 yTrackball = details.localPosition.dy;
+                                //tooltipKey.currentState!.ensureTooltipVisible();
                               });
                             }
                           },
@@ -149,6 +151,8 @@ class _FeupPlotterState
                               painter: linePlot,
                               child: PlotterToolTip(
                                 message: trackBallValue.toString(),
+                                triggerMode: TooltipTriggerMode.tap,
+                                key: tooltipKey,
                                 child: Container(),
                               ),
                             ),
