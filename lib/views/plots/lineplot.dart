@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'dart:developer' as developer;
+import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +9,7 @@ class LinePlot extends CustomPainter {
   final List<String> labels = [];
   final List<int> yValues = [];
   List<List<int>> values = [];
+  final double x1Trackball;
 
   LinePlot(
     List<String> names,
@@ -16,6 +17,7 @@ class LinePlot extends CustomPainter {
     List<String> labels,
     List<int> yValues,
     List<List<int>> values,
+    this.x1Trackball,
   ) {
     this.names.addAll(names);
     this.colors.addAll(colors);
@@ -58,7 +60,7 @@ class LinePlot extends CustomPainter {
     return [x1.toInt() + 10, y1.toInt(), x1.toInt()];
   }
 
-  ///desenha marcadores no eixo X
+  ///desenha marcadores no eixo X - as labels
   void drawXMarkers(Canvas canvas, Size size, double startX) {
     //zerar sempre no início para não acumular valores além do que preciso
     yPoints = [];
@@ -70,7 +72,7 @@ class LinePlot extends CustomPainter {
     int helper = separator;
     double x = startX;
 
-    for (int i = 0; i < yValues.length; i++) {
+    for (int i = 0; i < labels.length; i++) {
       final p1 = Offset(x + separator, size.height - 25);
       final p2 = Offset(x + separator, size.height - 35);
       final p3 = Offset(x + separator, size.height - 30);
@@ -119,55 +121,47 @@ class LinePlot extends CustomPainter {
       List<List<Offset>> xPoints,
       List<List<Offset>> yPoints,
       List<int> yValues) {
-    Offset initialPoint = const Offset(0, 0);
-    Offset endPoint = const Offset(0, 0);
+    xPointValues = [];
+    xPointValuesInt = [];
+    yPointValuesInt = [];
+    Offset endPoint = const Offset(
+        0, 0); //armazena os valores finais dos pontos de interceção
     for (int j = 0; j < names.length; j++) {
-      int cont = 0;
-      for (int i = (values[j].length - 1); i >= 0; i--) {
+      xPointValues.add([]);
+      yPointValuesInt.add([]);
+      Offset pointZero = Offset(30, size.height - 30);
+      Offset initialPoint = pointZero;
+      for (int i = 0; i < values[j].length; i++) {
         if (values[j].length == labels.length) {
-          //posição do valor no eixo y
           var value = values[j][i];
           var pos = yValues.indexOf(value);
-          //como estamos a desenhar de trás para frente, precisamos pegar o próximo valor que será tratado como o ponto inicial do próximo desenho
-          if (i >= 1) {
-            var nextValue = values[j][i - 1];
 
-            var nextLabel = labels[i -
-                1]; //problema nessa linha, isso obriga as labels a terem o mesmo tamanho que os valores
-            var nextPosY = yValues.indexOf(nextValue);
-            var nextPosX = labels.indexOf(nextLabel);
-            //se for o último valor, o ponto inicial é o mesmo do final
-            if (i == values[j].length - 1) {
-              initialPoint =
-                  Offset(xPoints[nextPosX][2].dx, yPoints[nextPosY][2].dy);
-            }
-            endPoint = Offset(xPoints[nextPosX][2].dx, yPoints[nextPosY][2].dy);
-          }
-
-          if (cont == 0) {
-            endPoint = Offset(xPoints[i][2].dx, yPoints[pos][2].dy);
-          }
           final paint = Paint()
             ..color = colors[j]
             ..strokeWidth = 3
             ..style = PaintingStyle.fill;
 
           canvas.drawCircle(
-              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 2, paint);
+              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), 3.5, paint);
 
-          //desenho da primeira linha, começar do zero
-          if (i == 0) {
-            drawLineLink(canvas, Offset(30, size.height - 30),
-                Offset(xPoints[i][2].dx, yPoints[pos][2].dy), colors[j]);
-          } else if (i == (values[j].length - 1)) {
-            //desenho da última linha
-            drawLineLink(canvas, initialPoint, endPoint, colors[j]);
+          drawLineLink(canvas, initialPoint,
+              Offset(xPoints[i][2].dx, yPoints[pos][2].dy), colors[j]);
+          endPoint = Offset(xPoints[i][2].dx, yPoints[pos][2].dy);
+
+          initialPoint = Offset(xPoints[i][2].dx, yPoints[pos][2].dy);
+          xPointValues[j].add(Offset(endPoint.dx, endPoint.dy));
+          if (names.length == 1) {
+            if (yFinalValuesSingleMap.length < values[j].length) {
+              yFinalValuesSingleMap[endPoint.dx.toInt()] = (values[j][i]);
+            }
           } else {
-            //desenho da penúltima linha até a segunda
-            drawLineLink(canvas, initialPoint, endPoint, colors[j]);
-            initialPoint = endPoint;
+            yFinalValuesMap[endPoint.dx.toInt()] = [values[0][i], values[1][i]];
           }
-          cont++;
+
+          if (!xPointValuesInt.contains(endPoint.dx.toInt())) {
+            xPointValuesInt.add(endPoint.dx.toInt());
+          }
+          yPointValuesInt[j].add(endPoint.dy.toInt());
         } else {
           developer.log('This element has diferent size than labels');
         }
@@ -206,16 +200,18 @@ class LinePlot extends CustomPainter {
     drawXMarkers(canvas, size, startXaxiX.toDouble());
     drawYMarkers(canvas, size, startXaxiY.toDouble());
     //aqui escrevo os textos no eixo y
-    for (int i = 0; i < xPoints.length; i++) {
+    for (int i = 0; i < yPoints.length; i++) {
       setText(yValues[i].toString(), canvas, size, yPoints[i][0], "y");
     }
     //aqui escrevo os labels no eixo x
     for (int i = 0; i < labels.length; i++) {
       setText(labels[i].length > 5 ? labels[i].substring(0, 4) : labels[i],
           canvas, size, xPoints[i][0], "x");
+      yFinalValuesMap[xPoints[i][0].dx.toInt()] = [];
     }
     drawPoint(canvas, size, values, xPoints, yPoints, yValues);
-    drawInitailPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
+    drawInitialPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
+    drawTrackBall(canvas, size, x1Trackball, labels.length);
   }
 
   @override

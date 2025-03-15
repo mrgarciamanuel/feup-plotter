@@ -8,6 +8,7 @@ class AreaPlot extends CustomPainter {
   final List<String> labels = [];
   final List<int> yValues = [];
   List<List<int>> values = [];
+  final double x1Trackball;
 
   AreaPlot(
     List<String> names,
@@ -15,6 +16,7 @@ class AreaPlot extends CustomPainter {
     List<String> labels,
     List<int> yValues,
     List<List<int>> values,
+    this.x1Trackball,
   ) {
     this.names.addAll(names);
     this.colors.addAll(colors);
@@ -161,7 +163,8 @@ class AreaPlot extends CustomPainter {
     }
 
     drawArea(canvas, size, values, xPoints, yPoints, yValues);
-    drawInitailPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
+    drawInitialPoint(canvas, size, const Color.fromARGB(255, 0, 0, 0), 0, 0);
+    drawTrackBall(canvas, size, x1Trackball, labels.length);
   }
 
   @override

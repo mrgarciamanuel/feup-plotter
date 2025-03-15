@@ -3,6 +3,7 @@ library feup_plotter;
 //this will be the plot page basically
 import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:feup_plotter/controllers/functions.dart';
+import 'package:feup_plotter/controllers/plotter_tooltip.dart';
 import 'package:feup_plotter/views/plots/areaplot.dart';
 import 'package:feup_plotter/views/plots/lineplot.dart';
 import 'package:feup_plotter/views/plots/barplot.dart';
@@ -32,33 +33,53 @@ class FeupPlotter extends StatefulWidget {
   State<FeupPlotter> createState() => _FeupPlotterState(values: result);
 }
 
-class _FeupPlotterState extends State<FeupPlotter> {
+class _FeupPlotterState
+    extends State<FeupPlotter> /*with TickerProviderStateMixin*/ {
+  //double _progress = 0.0;
+  late Animation<double> animation;
   List<List<int>> values;
   String defaultDropdownvalue = "line";
   CustomPainter? selectedPlot;
   Map<String, CustomPainter> plots = {};
+  final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
 
   _FeupPlotterState({required this.values});
+  double xTrackball = 30;
+  double yTrackball = 100;
+  //double yPOs = 100;
+  double ball = 20;
+  bool isClick = false;
+  double trackActualPositionX = 0;
+  double trackActualPositionY = 0;
+  String trackBallValue = "";
 
   @override
   void initState() {
     super.initState();
-    selectedPlot = LinePlot(widget.names, widget.colors, widget.labels,
-        returnPossibleValues(widget.result), widget.result);
 
-    plots = {
-      "line": LinePlot(widget.names, widget.colors, widget.labels,
-          returnPossibleValues(widget.result), widget.result),
-      "area": AreaPlot(widget.names, widget.colors, widget.labels,
-          returnPossibleValues(widget.result), widget.result),
-      "bar": BarPlot(widget.names, widget.colors, widget.labels,
-          returnPossibleValues(widget.result), widget.result),
-    };
+    selectedPlot = LinePlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result, xTrackball);
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    LinePlot linePlot = LinePlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result, xTrackball);
+
+    AreaPlot areaPlot = AreaPlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result, xTrackball);
+
+    BarPlot barPlot = BarPlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result, xTrackball);
+
+    plots = {
+      "line": linePlot,
+      "area": areaPlot,
+      "bar": barPlot,
+    };
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.screenTitle.length < 20
@@ -95,11 +116,54 @@ class _FeupPlotterState extends State<FeupPlotter> {
                     height: 5,
                   ),
                   SizedBox(
-                    child: CustomPaint(
-                      size: Size(width - 10, width - 10),
-                      painter: selectedPlot,
-                    ),
-                  ),
+                      child: GestureDetector(
+                          onHorizontalDragDown: (details) {
+                            setState(() {
+                              isClick = true;
+                            });
+                          },
+                          onHorizontalDragEnd: (details) {
+                            setState(() {
+                              trackBallValue = getValuesFromActualTrackPosition(
+                                  xTrackball, yTrackball, widget.names);
+                              isClick = false;
+                            });
+                          },
+                          onHorizontalDragUpdate: (details) {
+                            if (isClick) {
+                              setState(() {
+                                xTrackball = details.localPosition.dx;
+                                yTrackball = details.localPosition.dy;
+                              });
+                            }
+                          },
+                          onVerticalDragUpdate: (details) {
+                            if (isClick) {
+                              setState(() {
+                                xTrackball = details.localPosition.dx;
+                              });
+                            }
+                          },
+                          child: SizedBox(
+                            width: width - 10,
+                            height: width - 10,
+                            child: CustomPaint(
+                              size: Size(width - 10, width - 10),
+                              painter: selectedPlot.runtimeType ==
+                                      linePlot.runtimeType
+                                  ? linePlot
+                                  : selectedPlot.runtimeType ==
+                                          areaPlot.runtimeType
+                                      ? areaPlot
+                                      : barPlot,
+                              child: PlotterToolTip(
+                                message: trackBallValue.toString(),
+                                triggerMode: TooltipTriggerMode.tap,
+                                key: tooltipKey,
+                                child: Container(),
+                              ),
+                            ),
+                          ))),
                   const SizedBox(
                     height: 10,
                   ),

@@ -14,3 +14,9 @@ var charts = [
     child: Text("Bar Graph"),
   ),
 ];
+
+List<List<Offset>> xPointValues = [];
+List<int> xPointValuesInt = [];
+List<List<int>> yPointValuesInt = [];
+Map<int, List<int>> yFinalValuesMap = {};
+Map<int, int> yFinalValuesSingleMap = {};

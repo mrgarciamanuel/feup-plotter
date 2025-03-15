@@ -1,3 +1,4 @@
+import 'package:feup_plotter/controllers/constant_and_values.dart';
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -74,7 +75,7 @@ List<int> drawYAxis(Canvas canvas, Size size) {
 }
 
 ///Method used to draw initial point and somethimes to test the draw of the points
-void drawInitailPoint(
+void drawInitialPoint(
     Canvas canvas, Size size, Color color, double x, double y) {
   if (x == 0) {
     x = 30;
@@ -85,6 +86,28 @@ void drawInitailPoint(
     ..strokeWidth = 3
     ..style = PaintingStyle.fill;
   canvas.drawCircle(Offset(x, size.width - y), 2, paint);
+}
+
+void drawTrackBall(
+    Canvas canvas, Size size, double xTrackBall, int labelCount) {
+  //definir os pontos iniciais do trackball
+  if (xTrackBall == 0) {
+    xTrackBall = 10;
+  }
+
+  double yTrackBall = 10;
+
+  final paint = Paint()
+    ..color = const Color.fromARGB(255, 90, 90, 90)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 2;
+
+  Path path = Path();
+
+  path.moveTo(xTrackBall, yTrackBall);
+  path.lineTo(xTrackBall, size.height - 30);
+  path.close();
+  canvas.drawPath(path, paint);
 }
 
 //escrever textos no canvas
@@ -115,4 +138,50 @@ void setText(
     Offset(axis == "x" ? location.dx - 10 : location.dx - 10,
         axis == "x" ? location.dy : location.dy - 10),
   );
+}
+
+///Método que pega na posição atual e vai buscar os valores para cada elemente nessa posição ou perto dela
+///Resolver o erro, estou a escrever os mesmos valores para todos elementos na tooltip
+String getValuesFromActualTrackPosition(
+    double xPos, double yPos, List<String> names) {
+  List<double> values = [];
+  List<List<int>> valuesMultiple = [];
+  String result = "";
+  int valor = 0;
+
+  valor = findNearValue(xPos.ceil());
+  if (valor != 0) {
+    if (names.length == 1) {
+      values.add(yFinalValuesSingleMap[valor]!.toDouble());
+    } else {
+      valuesMultiple.add(yFinalValuesMap[valor]!);
+    }
+  }
+
+  if (names.length == 1) {
+    for (int i = 0; i < values.length; i++) {
+      result += "${names[i]} = ${values[i]}";
+    }
+  } else {
+    for (int i = 0; i < valuesMultiple.length; i++) {
+      result +=
+          "${names[0]} = ${valuesMultiple[i][0]}, ${names[1]} = ${valuesMultiple[i][1]}";
+    }
+  }
+
+  return result;
+}
+
+///vou pegar o inteiro da posição
+int findNearValue(int xPos) {
+  int valor = 0;
+  int lowerValue = xPos - 3;
+  int highValue = xPos + 3;
+  for (int i = 0; i < xPointValuesInt.length; i++) {
+    if (xPointValuesInt[i] >= lowerValue && xPointValuesInt[i] <= highValue) {
+      valor = xPointValuesInt[i];
+      break;
+    }
+  }
+  return valor;
 }
