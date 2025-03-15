@@ -59,24 +59,26 @@ class _FeupPlotterState
 
     selectedPlot = LinePlot(widget.names, widget.colors, widget.labels,
         returnPossibleValues(widget.result), widget.result, xTrackball);
-
-    plots = {
-      "line": LinePlot(widget.names, widget.colors, widget.labels,
-          returnPossibleValues(widget.result), widget.result, xTrackball),
-      "area": AreaPlot(widget.names, widget.colors, widget.labels,
-          returnPossibleValues(widget.result), widget.result),
-      "bar": BarPlot(widget.names, widget.colors, widget.labels,
-          returnPossibleValues(widget.result), widget.result),
-    };
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    //to delete later
     LinePlot linePlot = LinePlot(widget.names, widget.colors, widget.labels,
         returnPossibleValues(widget.result), widget.result, xTrackball);
+
+    AreaPlot areaPlot = AreaPlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result, xTrackball);
+
+    BarPlot barPlot = BarPlot(widget.names, widget.colors, widget.labels,
+        returnPossibleValues(widget.result), widget.result, xTrackball);
+
+    plots = {
+      "line": linePlot,
+      "area": areaPlot,
+      "bar": barPlot,
+    };
 
     return Scaffold(
       appBar: AppBar(
@@ -132,7 +134,6 @@ class _FeupPlotterState
                               setState(() {
                                 xTrackball = details.localPosition.dx;
                                 yTrackball = details.localPosition.dy;
-                                //tooltipKey.currentState!.ensureTooltipVisible();
                               });
                             }
                           },
@@ -148,7 +149,13 @@ class _FeupPlotterState
                             height: width - 10,
                             child: CustomPaint(
                               size: Size(width - 10, width - 10),
-                              painter: linePlot,
+                              painter: selectedPlot.runtimeType ==
+                                      linePlot.runtimeType
+                                  ? linePlot
+                                  : selectedPlot.runtimeType ==
+                                          areaPlot.runtimeType
+                                      ? areaPlot
+                                      : barPlot,
                               child: PlotterToolTip(
                                 message: trackBallValue.toString(),
                                 triggerMode: TooltipTriggerMode.tap,
