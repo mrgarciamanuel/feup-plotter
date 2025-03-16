@@ -1,6 +1,6 @@
 name: feup_plotter
 description: Flutter library to generate different types of chart. Provides ability to display information in cool and reliable way. Suitable for statistical information,  trending data, etc.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/mrgarciamanuel/feup-plotter
 
 environment:
