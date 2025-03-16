@@ -129,7 +129,7 @@
     },
     {
       "name": "top_snackbar_flutter",
-      "rootUri": "file:///Users/garciamanuel/.pub-cache/hosted/pub.dev/top_snackbar_flutter-3.1.0",
+      "rootUri": "file:///Users/garciamanuel/.pub-cache/hosted/pub.dev/top_snackbar_flutter-3.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
@@ -152,7 +152,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-10-17T21:51:49.882352Z",
+  "generated": "2025-03-16T12:50:26.451309Z",
   "generator": "pub",
   "generatorVersion": "3.1.0"
 }
